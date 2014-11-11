@@ -1,0 +1,7 @@
+{
+	"name": "p2-magazine",
+	"devDependencies": {
+		"baked": "^0.0.8",
+		"gulp": "^3.7.0"
+	}
+}
