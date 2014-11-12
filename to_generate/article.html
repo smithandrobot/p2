@@ -62,6 +62,10 @@
 			<article>
 				<header>
 					<h1>[%= article.getText('article.title') %]</h1>
+					[% if (article.getText('article.subtitle')) { %]
+						<h3>[%= article.getText('article.subtitle') %]</h3>
+					[% } %]
+
 					[% if (authorLinks) { %]
 						<p class="byline">
 							Works and Music by 
