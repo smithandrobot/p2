@@ -1,0 +1,8 @@
+node_modules
+build
+local-build
+.idea
+doc
+.grunt
+src/version.js
+
