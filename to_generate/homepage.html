@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<script type="text/prismic-query" data-binding="documents" data-orderings="[my.issue.issue_number]">
+<script type="text/prismic-query" data-binding="documents">
 [[:d = any(document.id, ["VGJbyyYAACcAdtxb"])]]
 </script>
 [% document = documents[0] %]
@@ -58,7 +58,7 @@
 				[%- document.getStructuredText('page.content').asHtml() %]
 				
 				<p>In the meantime, you can check out one of our fantastic previous issues:</p>
-				<ul>[% _.each(issues, function(issue) { %]
+				<ul>[% _.each(issues.reverse(), function(issue) { %]
 					<li><a href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]"[# white space required #]
 						>[%= helpers.issueLabel(issue) %]
 					</a></li>
