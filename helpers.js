@@ -8,75 +8,95 @@ function pad(n, width, z) {
 
 
 var helpers = {
-	firstArticleInIssue: function(issue) {
-		var groups = issue.getGroup('issue.articles');
-		var articleID = groups? groups.toArray()[0].getLink('article').document.id : false;
+  firstArticleInIssue: function(issue) {
+    var groups = issue.getGroup('issue.articles');
+    var articleID = groups? groups.toArray()[0].getLink('article').document.id : false;
 
-		if (articleID) {
-			var article = issue.loadedDocuments[articleID]
-			return article;
-		} else {
-			return false;
-		}
-	},
+    if (articleID) {
+      var article = issue.loadedDocuments[articleID]
+      return article;
+    } else {
+      return false;
+    }
+  },
 
-	offsetArticleInIssue: function(issue, article, offset) {
-		var searchID = article.id;
-		var groups = issue.getGroup('issue.articles');
-		groups = groups? groups.toArray() : [];
-		var length = groups.length;
+  offsetArticleInIssue: function(issue, article, offset) {
+    var searchID = article.id;
+    var groups = issue.getGroup('issue.articles');
+    groups = groups? groups.toArray() : [];
+    var length = groups.length;
 
-		for (var i = 0; i < length; i++) {
-			var currentID = groups[i].getLink('article').document.id
+    for (var i = 0; i < length; i++) {
+      var currentID = groups[i].getLink('article').document.id
 
-			if ((currentID === searchID)) {
-				if ((i + offset < length) && (i + offset >= 0)) {
-					var foundID = groups[i+offset].getLink('article').document.id;
-					return issue.loadedDocuments[foundID];
-				} else {
-					return false;
-				}
-			}
-		}
+      if ((currentID === searchID)) {
+        if ((i + offset < length) && (i + offset >= 0)) {
+          var foundID = groups[i+offset].getLink('article').document.id;
+          return issue.loadedDocuments[foundID];
+        } else {
+          return false;
+        }
+      }
+    }
 
-		return false;
-	},
+    return false;
+  },
 
-	nextArticleInIssue: function(issue, article) {
-		return this.offsetArticleInIssue(issue, article, 1);
-	},
+  nextArticleInIssue: function(issue, article) {
+    return this.offsetArticleInIssue(issue, article, 1);
+  },
 
-	prevArticleInIssue: function(issue, article) {
-		return this.offsetArticleInIssue(issue, article, -1);
-	},
+  prevArticleInIssue: function(issue, article) {
+    return this.offsetArticleInIssue(issue, article, -1);
+  },
 
-	articleURLParams: function(issue, article) {
-		return { issueNum: issue.getNumber('issue.issue_number'), slug: article.getText('article.slug') };
-	},
+  articleURLParams: function(issue, article) {
+    return { issueNum: issue.getNumber('issue.issue_number'), slug: article.getText('article.slug') };
+  },
 
-	// Issue related
-	issueLabel: function(issue) {
-		return 'Issue '+ issue.getText('issue.issue_number') +', '+ issue.getText('issue.issue_date');
-	},
-	issueLabelShort: function(issue) {
-		return 'Issue'+ pad(issue.getText('issue.issue_number'), 2) +', '+ issue.getText('issue.issue_date');
-	},
+  // Issue related
+  issueLabel: function(issue) {
+    return 'Issue '+ issue.getText('issue.issue_number') +', '+ issue.getText('issue.issue_date');
+  },
+  issueLabelShort: function(issue) {
+    return 'Issue'+ pad(issue.getText('issue.issue_number'), 2) +', '+ issue.getText('issue.issue_date');
+  },
 
-	issuePageNumber: function(issue, article) {
-		var articles = issue.getGroup('issue.articles');
-		articles = articles? articles.toArray() : [];
-		var articleID = article.id;
-		var articleIndex = null;
+  issuePageNumber: function(issue, article) {
+    var articles = issue.getGroup('issue.articles');
+    articles = articles? articles.toArray() : [];
+    var articleID = article.id;
+    var articleIndex = null;
 
-		for(var i = 0; i < articles.length; i++) {
-			if (articleID === articles[i].getLink('article').document.id) {
-				articleIndex = i + 1;
-				break;
-			}	
-		}
+    for(var i = 0; i < articles.length; i++) {
+      if (articleID === articles[i].getLink('article').document.id) {
+        articleIndex = i + 1;
+        break;
+      } 
+    }
 
-		return 'Page '+ articleIndex +' / '+ articles.length;
-	}
+    return 'Page '+ articleIndex +' / '+ articles.length;
+  },
+
+  customRender: function(data) {
+    if(data.indexOf('[table') > -1) {
+      str = data.replace(/\n/g, '');
+      var re = /(?:\[table.*?\])(.*?)(?:\[end table\])/g;
+      console.log('we have a table');
+      str = str.replace(re, function(a, b, c, d) {
+        b = b.replace(/<(|\/)p>/g, '');
+        b = b.replace(/<ul>/g, '<tr>');
+        b = b.replace(/<\/ul>/g, '</tr>');
+        b = b.replace(/<li>/g, '<td>');
+        b = b.replace(/<\/li>/g, '</td>');
+        b = '<div class="inline-table"><table>'+b+'</table></div>';
+        console.log(b);
+        return b;
+      });
+      return str;
+    }
+    return data
+  }
 };
 
 GLOBAL.helpers = helpers;

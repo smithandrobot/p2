@@ -74,7 +74,8 @@
 					[% } %]
 				</header>
 				<div class="article-body">
-					[%- article.getStructuredText('article.content').asHtml() %]
+					[% content = helpers.customRender(article.getStructuredText('article.content').asHtml()) %]
+					[%- content %]
 				</div>
 
 				<aside class="left-column clearfix">
