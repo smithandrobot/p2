@@ -8,6 +8,8 @@ function pad(n, width, z) {
 
 
 var helpers = {
+	serializer: require('./src/p2Serializer'),
+
 	firstArticleInIssue: function(issue) {
 		var groups = issue.getGroup('issue.articles');
 		var articleID = groups? groups.toArray()[0].getLink('article').document.id : false;
