@@ -1,5 +1,5 @@
 <!DOCTYPE html>
-<script type="text/prismic-query" data-binding="documents" data-orderings="[my.issue.issue_number]">
+<script type="text/prismic-query" data-binding="documents">
 [[:d = any(document.id, ["VGJbyyYAACcAdtxb"])]]
 </script>
 [% document = documents[0] %]
@@ -17,7 +17,7 @@
 	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
 	<script src="/assets/js/keymaster.min.js"></script>
 
-	<title>foobar</title>
+	<title>Magazine | [%= document.getText('page.title') %]</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:url" content="[%= urlToHere() %]" />
@@ -55,10 +55,10 @@
 
 			<section class="issue-notes">
 				<h1>[%= document.getText('page.title') %]</h1>
-				[%- document.getStructuredText('page.content').asHtml() %]
+				[%- document.getStructuredText('page.content').asHtml(null, helpers.serializer) %]
 				
 				<p>In the meantime, you can check out one of our fantastic previous issues:</p>
-				<ul>[% _.each(issues, function(issue) { %]
+				<ul>[% _.each(issues.reverse(), function(issue) { %]
 					<li><a href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]"[# white space required #]
 						>[%= helpers.issueLabel(issue) %]
 					</a></li>

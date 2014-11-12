@@ -11,7 +11,7 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
 
-	<title>foobar</title>
+	<title>Magazine | [%= issue.getText('issue.title') %]</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:url" content="[%= urlToHere() %]" />
@@ -61,7 +61,7 @@
 
 			<section class="issue-notes">
 				<h1>[%= issue.getText('issue.title') %]</h1>
-				[%- issue.getStructuredText('issue.body').asHtml() %]
+				[%- issue.getStructuredText('issue.body').asHtml(null, helpers.serializer) %]
 
 				<p>This month we feature:</p>
 
