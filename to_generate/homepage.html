@@ -1,6 +1,6 @@
 <!DOCTYPE html>
 <script type="text/prismic-query" data-binding="documents" data-orderings="[my.issue.issue_number]">
-[[:d = any(document.id, ["VFezgCgAACUA80bh"])]]
+[[:d = any(document.id, ["VGJbyyYAACcAdtxb"])]]
 </script>
 [% document = documents[0] %]
 
@@ -27,12 +27,14 @@
 
 <body class="wrapper">
 	<nav class="paginate">
-		<a id="next" href="[%= pathTo('issue', { issueNum: nextIssue.getNumber('issue.issue_number') }) %]" class="next">▶</a>
-		<script>
-		key('right', function(){ 
-			window.open($("#next")[0].href, '_self', false);
-		});
-		</script>
+		[% if (nextIssue) { %]
+			<a id="next" href="[%= pathTo('issue', { issueNum: nextIssue.getNumber('issue.issue_number') }) %]" class="next">▶</a>
+			<script>
+			key('right', function(){ 
+				window.open($("#next")[0].href, '_self', false);
+			});
+			</script>
+		[% } %]
 	</nav>
 
 	<div class="container">
@@ -55,6 +57,7 @@
 				<h1>[%= document.getText('page.title') %]</h1>
 				[%- document.getStructuredText('page.content').asHtml() %]
 				
+				<p>In the meantime, you can check out one of our fantastic previous issues:</p>
 				<ul>[% _.each(issues, function(issue) { %]
 					<li><a href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]"[# white space required #]
 						>[%= helpers.issueLabel(issue) %]
