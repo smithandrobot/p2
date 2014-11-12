@@ -6,7 +6,7 @@
 <script type="text/prismic-query" data-binding="articles" data-eager="true">
 [[:d = at(my.article.slug, "$slug")]]
 </script>
-[% article = articles[0] %]
+[% article = helpers.articleInIssue(articles, issue) %]
 [% authorLinks = article.getGroup('article.authors') %]
 [% nextArticle = helpers.nextArticleInIssue(issue, article) %]
 [% prevArticle = helpers.prevArticleInIssue(issue, article) %]
