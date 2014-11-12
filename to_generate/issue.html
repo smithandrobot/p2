@@ -61,7 +61,7 @@
 
 			<section class="issue-notes">
 				<h1>[%= issue.getText('issue.title') %]</h1>
-				[%- issue.getStructuredText('issue.body').asHtml() %]
+				[%- issue.getStructuredText('issue.body').asHtml(null, helpers.serializer) %]
 
 				<p>This month we feature:</p>
 
