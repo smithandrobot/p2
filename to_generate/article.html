@@ -106,6 +106,20 @@
 		</section>
 	</div>
 
-	<div class="bottom-pages"></div>
+	<div id="bottom-pages">
+		<nav class="paginate">
+			[% if (prevArticle) { %]
+				<a class="prev" href="[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
+			[% } else { %]
+				<a class="prev" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
+			[% } %]
+
+			[% if (nextArticle) { %]
+				<a class="next" href="[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
+			[% } else { %]
+				<a class="next" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
+			[% } %]
+		</nav>
+	</div>
 </body>
 </html>
