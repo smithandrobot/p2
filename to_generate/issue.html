@@ -9,7 +9,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
 
 	<title>Magazine | [%= issue.getText('issue.title') %]</title>
 	<meta name="description" content="">
@@ -23,7 +25,7 @@
 <body class="wrapper">
 	<nav class="paginate">
 		[% if (firstArticle) { %]
-			<a id="next" href="[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="next">▶</a>
+			<a id="next" href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="next">▶</a>
 			<script>
 			key('right', function(){
 				window.open($("#next")[0].href, '_self', false);
@@ -53,7 +55,7 @@
 					<li class="active"><a href="">[%= helpers.issueLabelShort(issue) %]</a></li>
 					[% if (firstArticle) { %]
 						<li id="start-reading" class="pull-right">
-							<a href="[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]">Start Reading &raquo;</a>
+							<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]">Start Reading &raquo;</a>
 						</li>
 					[% } %]
 				</ul>
@@ -70,7 +72,7 @@
 						[% articleId = group.getLink('article').document.id  %]
 						[% article = issue.loadedDocuments[articleId] %]
 
-						<li><a href="[%= pathTo('article', helpers.articleURLParams(issue, article)) %]"[# white space required #]
+						<li><a href="../..[%= pathTo('article', helpers.articleURLParams(issue, article)) %]"[# white space required #]
 							>[%= article.getText('article.title') %]
 						</a></li>
 					[% }) %]
@@ -81,7 +83,7 @@
 				<h3>
 					<a href="">&laquo; Last Issue</a>
 					[% if (firstArticle) { %]
-						<a href="[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="pull-right">Start Reading &raquo;</a>
+						<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="pull-right">Start Reading &raquo;</a>
 					[% } %]
 				</h3>
 			</section>
@@ -91,7 +93,7 @@
 	<div id="bottom-pages">
 		<nav class="paginate">
 			[% if (firstArticle) { %]
-				<a href="[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="next">▶</a>
+				<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="next">▶</a>
 			[% } %]
 		</nav>
 	</div>
