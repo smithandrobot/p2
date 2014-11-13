@@ -102,18 +102,24 @@ var helpers = {
 
   customRender: function(data) {
     if(data.indexOf('[table') > -1) {
-      str = data.replace(/\n/g, '');
+      var str = data.replace(/\n/g, '');
       var re = /(?:\[table.*?\])(.*?)(?:\[end table\])/g;
-      console.log('we have a table');
       str = str.replace(re, function(a, b, c, d) {
-        b = b.replace(/<(|\/)p>/g, '');
-        b = b.replace(/<ul>/g, '<tr>');
-        b = b.replace(/<\/ul>/g, '</tr>');
-        b = b.replace(/<li>/g, '<td>');
-        b = b.replace(/<\/li>/g, '</td>');
-        b = '<div class="inline-table"><table>'+b+'</table></div>';
-        console.log(b);
-        return b;
+      	var content = '<div class="inline-table"><table>';
+      	var headerFound = false;
+      	b = b.replace(/<(|\/)p>/g, ''); // kill paragraphs
+
+      	content += b.replace(/<ul>(.*?)<\/ul>/g, function(match, innerHTML) {
+      		if (!headerFound) {
+      			headerFound = true;
+      			return '<thead>' + innerHTML.replace(/li>/g, 'th>') + '</thead>';
+      		} else {
+      			return '<tr>' + innerHTML.replace(/li>/g, 'td>') + '</tr>';
+      		}
+      	});
+
+        content += '</table></div>';
+        return content;
       });
       return str;
     }
