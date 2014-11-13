@@ -119,6 +119,26 @@ var helpers = {
     return 'Page ' + articleIndex + ' / ' + articles.length;
   },
 
+  offsetIssue: function(issues, currentIssue, offset) {
+    var issueNumber = currentIssue.getNumber('issue.issue_number');
+    var offsetIssueNumber = issueNumber + offset;
+
+    for (var i = 0; i < issues.length; i++) {
+      if (issues[i].getNumber('issue.issue_number') == offsetIssueNumber) {
+        return issues[i];
+      }
+    }
+
+    return false;
+  },
+
+  prevIssue: function(issues, currentIssue) {
+    return this.offsetIssue(issues, currentIssue, -1);
+  },
+  nextIssue: function(issues, currentIssue) {
+    return this.offsetIssue(issues, currentIssue, 1);
+  },
+
   // general
   sortDocumentsBy: function(documents, path) {
     documents = documents.sort(function(a, b) {
