@@ -89,6 +89,15 @@ var helpers = {
     return 'Page ' + articleIndex + ' / ' + articles.length;
   },
 
+  // general
+  sortDocumentsBy: function(documents, path) {
+    documents = documents.sort(function(a, b) {
+      return a.fragments[path].value - b.fragments[path].value;
+    });
+
+    return documents;
+  },
+
   customRender: function(data) {
     if (data.indexOf('[table') > -1) {
       var str = data.replace(/\n/g, '');

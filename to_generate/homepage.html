@@ -7,6 +7,7 @@
 <script type="text/prismic-query" data-binding="issues">
 [[:d = any(document.type, ["issue"])]]
 </script>
+[% issues = helpers.sortDocumentsBy(issues, 'issue.issue_number') %]
 [% nextIssue = issues[0] %]
 
 <html>
