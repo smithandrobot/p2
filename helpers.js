@@ -4,6 +4,29 @@ function pad(n, width, z) {
     return n.length >= width ? n : new Array(width - n.length + 1).join(z) + n;
 }
 
+function replaceTables(data) {
+  if (data.indexOf('[table') > -1) {
+    var str = data.replace(/\n/g, '');
+    var re = /(?:\[table.*?\])(.*?)(?:\[end table\])/g;
+    str = str.replace(re, function(a, b, c, d) {
+      var content = '<div class="inline-table"><table>';
+      var headerFound = false;
+      b = b.replace(/<(|\/)p>/g, ''); // kill paragraphs
+      content += b.replace(/<ul>(.*?)<\/ul>/g, function(match, innerHTML) {
+        if (!headerFound) {
+          headerFound = true;
+          return '<thead>' + innerHTML.replace(/li>/g, 'th>') + '</thead>';
+        } else {
+          return '<tr>' + innerHTML.replace(/li>/g, 'td>') + '</tr>';
+        }
+      });
+      content += '</table></div>';
+      return content;
+    });
+    return str;
+  }
+  return data;
+}
 var helpers = {
   serializer: require('./src/p2Serializer'),
   firstArticleInIssue: function(issue) {
@@ -99,27 +122,8 @@ var helpers = {
   },
 
   customRender: function(data) {
-    if (data.indexOf('[table') > -1) {
-      var str = data.replace(/\n/g, '');
-      var re = /(?:\[table.*?\])(.*?)(?:\[end table\])/g;
-      str = str.replace(re, function(a, b, c, d) {
-        var content = '<div class="inline-table"><table>';
-        var headerFound = false;
-        b = b.replace(/<(|\/)p>/g, ''); // kill paragraphs
-        content += b.replace(/<ul>(.*?)<\/ul>/g, function(match, innerHTML) {
-          if (!headerFound) {
-            headerFound = true;
-            return '<thead>' + innerHTML.replace(/li>/g, 'th>') + '</thead>';
-          } else {
-            return '<tr>' + innerHTML.replace(/li>/g, 'td>') + '</tr>';
-          }
-        });
-        content += '</table></div>';
-        return content;
-      });
-      return str;
-    }
-    return data
+    data = replaceTables(data);
+    return data;
   }
 };
 
