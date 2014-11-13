@@ -27,6 +27,13 @@ function replaceTables(data) {
   }
   return data;
 }
+
+function replaceGist(data) {
+  return data.replace(/\[gist (.*?)\]/g, function(a, b) {
+    return '<script src="https://gist.github.com/'+ b + '.js"></script>';
+  });
+}
+
 var helpers = {
   serializer: require('./src/p2Serializer'),
   firstArticleInIssue: function(issue) {
@@ -123,6 +130,8 @@ var helpers = {
 
   customRender: function(data) {
     data = replaceTables(data);
+    data = replaceGist(data);
+
     return data;
   }
 };
