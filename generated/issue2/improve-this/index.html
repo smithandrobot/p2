@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+
+	<title>Magazine | Improve This</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue2/improve-this/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="/issue2/continuous-design/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="/issue2/puzzle/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 2, August 2013</a></li>
+					<li class="pull-right">Page 5 / 7</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>Improve This</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by 
+							
+								
+								
+							The P2 Elves
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>In improve this we take a look at a reader submitted test, user interface, story or block of code and we try and improve it, without context, explaining what we did as we went.</p><p>In this issue, Mike sent a link to an <a href="https://github.com/gardym/spacecubed-projectrjs/blob/master/lib/streamers/twitter_stream_source.js">event source to a realtime social media visualization</a>.</p><p>Before we ever apply brainpower, let’s apply computer power. JSLint and JSHint are both tools to find mistakes and oversights.</p><p><script src="https://gist.github.com/gardym/721358c7f65836737415.js"></script></p><p>The implied globals are all OK. The unused variables are not. We see immediately that:</p><ol><li>The <span class="inline-code"><code>mongo</code></span> dependency isn’t used</li><li>There is no error handling around inserting records into the database.</li></ol><p>The first problem is easily solved. The second problem we’ll report and ignore, because it appears throughout the rest of the program:</p><p><script src="https://gist.github.com/gardym/7866987a3e0dfe1cae22.js"></script></p><p>Let’s apply brainpower. Three things stand out:</p><ol><li><span class="inline-code"><code>map_tweet_to_event</code></span> seems to have an unnecessary callback. This should be an easy fix.</li><li><span class="inline-code"><code>tweet.coordinates</code></span> is both null-checked and uses magic numbers. This isn’t a problem; but, data structures with optional nulls are easy to trip on in normal use and complicate testing.</li><li><span class="inline-code"><code>start_streaming</code></span> is a set of deeply nested callbacks. This one is four levels deep. Not a serious offence by Javascript standards; but, we can do better.</li></ol><p>Sadly, this code came with no tests. We write a characterization test to give confidence that we won’t break anything. The bottom of nested callbacks are good places to find expected behaviors:</p><p><script src="https://gist.github.com/gardym/65dfdfd385020f6b8a0d.js"></script></p><p>We flesh out the test guided by the test failures.</p><p>Now, we can refactor with (more) confidence:</p><p>First, we collapse the <span class="inline-code"><code>map_tweet_to_event</code></span> callback.</p><p><script src="https://gist.github.com/gardym/14adb21c2f800ec16908.js"></script></p><p>Second, we split up <span class="inline-code"><code>start_streaming</code></span> up by responsibility. Those responsibilities— right now— are:</p><ol><li>Streaming tweets.</li><li>Logging.</li><li>Filtering tweets.</li><li>Saving raw tweets.</li><li>Saving events (processed tweets).</li></ol><p>1 through 3 involve the Twitter stream. 4 and 5 involve the database.</p><p>We create a <span class="inline-code"><code>stream_tweets</code></span> function:“ ,</p><p><script src="https://gist.github.com/gardym/ff2d4371a7b429e00de1.js"></script></p><p>Notice we inline the <span class="inline-code"><code>params</code></span> object that was previously initialized in <span class="inline-code"><code>track_current_user</code></span> because it is only used by the <span class="inline-code"><code>Twitter.stream</code></span> method.</p><p>Then, we create a <span class="inline-code"><code>record_tweet</code></span> function:</p><p><script src="https://gist.github.com/gardym/e4c1d8372458c10795c9.js"></script></p><p>This function returns the callback function, but keeps the <span class="inline-code"><code>db</code></span> in scope. Finally, we update <span class="inline-code"><code>track_current_user:</code></span></p><p><script src="https://gist.github.com/gardym/b9a1a696c09805bbcd01.js"></script></p><p>The tests pass! That means it works, right? ;–)</p><p><em>Do you have something you want improved? Send it to </em><a href="mailto:p2@thoughtworks.com"><em>p2@thoughtworks.com</em></a><em>.</em></p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+					
+					
+						
+							
+							
+							<div>
+								<a href="#">
+									<img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/74dd76ff6340a4b1c69e5f5a31da15dfe859df8f.jpg" />
+								</a>
+								<div>The P2 Elves</div>
+								
+							</div>
+						
+					
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="/issue2/continuous-design/">◀</a>
+			
+
+			
+				<a class="next" href="/issue2/puzzle/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue2/improve-this/index.html","args":{"issueNum":2,"slug":"improve-this"}};</script>
+</body>
+</html>

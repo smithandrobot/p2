@@ -1,0 +1,113 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+
+	<title>Magazine | Puzzle</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue9/puzzle/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="/issue9/two-months-early/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="/issue9/credits/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 9, March 2014</a></li>
+					<li class="pull-right">Page 5 / 6</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>Puzzle</h1>
+					
+						<h3>Garbage Collection - Take 2</h3>
+					
+
+					
+						<p class="byline">
+							Works and Music by 
+							
+								
+								
+							Anand Krishnaswamy
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>We didn’t get any correct answers to last month’s puzzle, but the responses we did receive provided great feedback* on how to improve it. So, in the spirit of agile, we are going to iterate and improve. We have taken your comments and reworded the puzzle to hopefully make it more clear.</p><p>Please send your answers to <a href="mailto:p2@thoughtworks.com">p2@thoughtworks.com</a> and the best answer will win a P2 related prize!</p><p>A city is divided into zones (shown in red, green, orange, lilac and blue in the picture below) by the municipal corporation. Each zone has a few garbage bins within its bounds (spread out as evenly as possible). Each zone (except the grey one) has a garbage collection truck assigned to it. This truck plies the designated zone and empties the bins therein. Each truck has the capacity of 9 bins. Surrounding the brightly coloured zones is a special zone (bounded by the black line &amp; outside all the other zones) – this is a “common-zone”. Any truck can empty bins in this zone, but only when it has collected all the garbage in its designated zone. No truck is assigned the grey zone.</p><p class="block-img"><img src="https://prismic-io.s3.amazonaws.com/p2-magazine/aff01bd835c4b1bc577b68962af8f051334e04e0.png" alt=""></p><p>The problem that the garbage company faces is simple. They want a mechanism to identify which bins have been emptied &amp; whether a truck has emptied all the bins in its zone. Secondly, the company has faced some problems. Drivers sometimes fill their truck with “stuff” from somewhere (not from the city bins), thereby increasing the weight of their “daily collection” &amp; claiming money for it. The company wishes to ensure that the collection in the truck is indeed only from the city bins.</p><p>Devise a solution for the garbage collection company to track the activity (bins visited, bins emptied, etc.) &amp; collection for their trucks.</p><p>Note that your elegant solution must be frugal &amp; can scale to a city with, say, 10,000 bins.</p><p><em>*Feedback is always welcome! If you have some ideas or would like to submit your own puzzle to P2 Magazine then please email us at </em><a href="mailto:p2@thoughtworks.com"><em>p2@thoughtworks.com</em></a><em>.</em></p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+					
+					
+						
+							
+							
+							<div>
+								<a href="#">
+									<img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/3ccc20297452642f807ab9634896a4406234e8ae.jpg" />
+								</a>
+								<div>Anand Krishnaswamy</div>
+								
+							</div>
+						
+					
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="/issue9/two-months-early/">◀</a>
+			
+
+			
+				<a class="next" href="/issue9/credits/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue9/puzzle/index.html","args":{"issueNum":9,"slug":"puzzle"}};</script>
+</body>
+</html>

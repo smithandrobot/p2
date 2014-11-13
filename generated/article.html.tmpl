@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<script type="text/prismic-query" data-binding="issues" data-eager="true">
+[[:d = at(my.issue.issue_number, $issueNum)]]
+</script>
+[% issue = issues[0] %]
+<script type="text/prismic-query" data-binding="articles" data-eager="true">
+[[:d = at(my.article.slug, "$slug")]]
+</script>
+[% article = helpers.articleInIssue(articles, issue) %]
+[% authorLinks = article.getGroup('article.authors') %]
+[% nextArticle = helpers.nextArticleInIssue(issue, article) %]
+[% prevArticle = helpers.prevArticleInIssue(issue, article) %]
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+
+	<title>Magazine | [%= article.getText('article.title') %]</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="[%= urlToHere() %]" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<nav class="paginate">
+		[% if (prevArticle) { %]
+			<a id="prev" class="prev" href="[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
+		[% } else { %]
+			<a id="prev" class="prev" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
+		[% } %]
+
+		[% if (nextArticle) { %]
+			<a id="next" class="next" href="[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
+		[% } else { %]
+			<a id="next" class="next" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
+		[% } %]
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">[%= helpers.issueLabel(issue) %]</a></li>
+					<li class="pull-right">[%= helpers.issuePageNumber(issue, article) %]</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>[%= article.getText('article.title') %]</h1>
+					[% if (article.getText('article.subtitle')) { %]
+						<h3>[%= article.getText('article.subtitle') %]</h3>
+					[% } %]
+
+					[% if (authorLinks) { %]
+						<p class="byline">
+							Works and Music by 
+							[% people = _.map(authorLinks.toArray(), function(authorLink) { %]
+								[% author = article.loadedDocuments[authorLink.getLink('author').document.id] %]
+								[% return author.getText('author.full_name') %]
+							[% }) %]
+							[%= people.join(' and ') %]
+						</p>
+					[% } %]
+				</header>
+				<div class="article-body">
+					[%- content = helpers.customRender(article.getStructuredText('article.content').asHtml(null, helpers.serializer)) %]
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+					
+					[% if (authorLinks) { %]
+						[% _.each(authorLinks.toArray(), function(authorLink) { %]
+							[% author = article.loadedDocuments[authorLink.getLink('author').document.id] %]
+							[% image = author.getImage('author.image') %]
+							<div>
+								<a href="#">
+									<img class="author-avatar" src="[%= image.views.thumbnail.url %]" />
+								</a>
+								<div>[%= author.getText('author.full_name') %]</div>
+								[% if (author.getText('author.twitter_handle')) { %]
+									<a href="http://twitter.com/[%= author.getText('author.twitter_handle') %]">
+										@[%= author.getText('author.twitter_handle') %]
+									</a>
+								[% } %]
+							</div>
+						[% }) %]
+					[% } %]
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			[% if (prevArticle) { %]
+				<a class="prev" href="[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
+			[% } else { %]
+				<a class="prev" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
+			[% } %]
+
+			[% if (nextArticle) { %]
+				<a class="next" href="[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
+			[% } else { %]
+				<a class="next" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
+			[% } %]
+		</nav>
+	</div>
+</body>
+</html>
