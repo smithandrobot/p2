@@ -3,7 +3,13 @@
 [[:d = at(my.issue.issue_number, $issueNum)]]
 </script>
 [% issue = issues[0] %]
+<script type="text/prismic-query" data-binding="allIssues">
+[[:d = any(document.type, ["issue"])]]
+</script>
+
 [% firstArticle = helpers.firstArticleInIssue(issue) %]
+[% nextIssue = helpers.nextIssue(allIssues, issue) %]
+[% prevIssue = helpers.prevIssue(allIssues, issue) %]
 
 <html>
 <head>
@@ -72,7 +78,7 @@
 						[% articleId = group.getLink('article').document.id  %]
 						[% article = issue.loadedDocuments[articleId] %]
 
-						<li><a href="../..[%= pathTo('article', helpers.articleURLParams(issue, article)) %]"[# white space required #]
+						<li><a href="../..[%= pathTo('article', helpers.articleURLParams(issue, article)) %]"
 							>[%= article.getText('article.title') %]
 						</a></li>
 					[% }) %]
@@ -81,9 +87,24 @@
 
 			<section class="issue-notes">
 				<h3>
-					<a href="">&laquo; Last Issue</a>
-					[% if (firstArticle) { %]
-						<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="pull-right">Start Reading &raquo;</a>
+					[% if (prevIssue) { %]
+						<a href="../..[%= pathTo('issue', { issueNum: prevIssue.getNumber('issue.issue_number') }) %]"
+							>&laquo; Last Issue</a>
+					[% } else { %]
+						[% if (firstArticle) { %]
+							<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]"
+								>Read this issue &raquo;</a>
+						[% } %]
+					[% } %]
+
+					[% if (nextIssue) { %]
+						<a href="../..[%= pathTo('issue', { issueNum: nextIssue.getNumber('issue.issue_number') }) %]" class="pull-right"
+							>Jump to next issue &raquo;</a>
+					[% } else { %]
+						[% if (firstArticle) { %]
+							<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="pull-right"
+								>Start Reading &raquo;</a>
+						[% } %]
 					[% } %]
 				</h3>
 			</section>
