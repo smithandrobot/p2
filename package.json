@@ -1,7 +1,7 @@
 {
 	"name": "p2-magazine",
 	"devDependencies": {
-		"baked": "^0.0.8",
+		"baked": "https://github.com/smithandrobot/baked.js/tarball/e3a16d2cab3a52f9bda0a40bbbf073ed0b8b0b70",
 		"gulp": "^3.7.0"
 	}
 }
