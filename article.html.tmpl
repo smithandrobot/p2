@@ -15,7 +15,9 @@
 <head>
 	<meta charset="utf-8">
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
-	<link href="/stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
 
 	<title>Magazine | [%= article.getText('article.title') %]</title>
 	<meta name="description" content="">
@@ -30,15 +32,15 @@
 <body class="wrapper">
 	<nav class="paginate">
 		[% if (prevArticle) { %]
-			<a id="prev" class="prev" href="[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
+			<a id="prev" class="prev" href="../..[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
 		[% } else { %]
-			<a id="prev" class="prev" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
+			<a id="prev" class="prev" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
 		[% } %]
 
 		[% if (nextArticle) { %]
-			<a id="next" class="next" href="[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
+			<a id="next" class="next" href="../..[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
 		[% } else { %]
-			<a id="next" class="next" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
+			<a id="next" class="next" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
 		[% } %]
 		<script>
 		key('left', function() {
@@ -109,15 +111,15 @@
 	<div id="bottom-pages">
 		<nav class="paginate">
 			[% if (prevArticle) { %]
-				<a class="prev" href="[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
+				<a class="prev" href="../..[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
 			[% } else { %]
-				<a class="prev" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
+				<a class="prev" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
 			[% } %]
 
 			[% if (nextArticle) { %]
-				<a class="next" href="[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
+				<a class="next" href="../..[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
 			[% } else { %]
-				<a class="next" href="[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
+				<a class="next" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
 			[% } %]
 		</nav>
 	</div>
