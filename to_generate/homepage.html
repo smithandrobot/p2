@@ -29,7 +29,7 @@
 <body class="wrapper">
 	<nav class="paginate">
 		[% if (nextIssue) { %]
-			<a id="next" href="[%= pathTo('issue', { issueNum: nextIssue.getNumber('issue.issue_number') }) %]" class="next">▶</a>
+			<a id="next" href="../..[%= pathTo('issue', { issueNum: nextIssue.getNumber('issue.issue_number') }) %]" class="next">▶</a>
 			<script>
 			key('right', function(){ 
 				window.open($("#next")[0].href, '_self', false);
