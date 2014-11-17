@@ -2,11 +2,11 @@
 <script type="text/prismic-query" data-binding="issues" data-eager="true">
 [[:d = at(my.issue.issue_number, $issueNum)]]
 </script>
-[% issue = issues[0] %]
+[% issue = helpers.potato.wrapDocument(issues[0]) %]
 <script type="text/prismic-query" data-binding="allIssues">
 [[:d = any(document.type, ["issue"])]]
 </script>
-
+[% allIssues = helpers.potato.wrapDocuments(allIssues) %]
 [% firstArticle = helpers.firstArticleInIssue(issue) %]
 [% nextIssue = helpers.nextIssue(allIssues, issue) %]
 [% prevIssue = helpers.prevIssue(allIssues, issue) %]
@@ -19,7 +19,7 @@
 	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
 	<script src="../../assets/js/keymaster.min.js"></script>
 
-	<title>Magazine | [%= issue.getText('issue.title') %]</title>
+	<title>Magazine | [%= issue.getTitle() %]</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:url" content="[%= urlToHere() %]" />
@@ -43,8 +43,8 @@
 	<div class="container">
 		<section class="table-of-contents">
 			<header class="cover">
-				[% if (issue.getImage('issue.image')) { %]
-					<img src="[%= issue.getImage('issue.image').main.url %]" style="width:100%;height:100%" />
+				[% if (issue.getImage()) { %]
+					<img src="[%= issue.getImage().main.url %]" style="width:100%;height:100%" />
 				[% } %]
 			</header>
 			
@@ -68,27 +68,26 @@
 			</nav>
 
 			<section class="issue-notes">
-				<h1>[%= issue.getText('issue.title') %]</h1>
-				[%- issue.getStructuredText('issue.body').asHtml(null, helpers.serializer) %]
+				<h1>[%= issue.getTitle() %]</h1>
+				[%- issue.getBody().asHtml(null, helpers.serializer) %]
 
 				<p>This month we feature:</p>
 
-				<ul>[% if (issue.getGroup('issue.articles')) { %]
-					[% _.each(issue.getGroup('issue.articles').toArray(), function(group) { %]
-						[% articleId = group.getLink('article').document.id  %]
-						[% article = issue.loadedDocuments[articleId] %]
+				<ul>
+					[% _.each(issue.getArticles(), function(group) { %]
+						[% article = group.getArticle() %]
 
 						<li><a href="../..[%= pathTo('article', helpers.articleURLParams(issue, article)) %]"
-							>[%= article.getText('article.title') %]
+							>[%= article.getTitle().asText() %]
 						</a></li>
 					[% }) %]
-				[% } %]</ul>
+				</ul>
 			</section>
 
 			<section class="issue-notes">
 				<h3>
 					[% if (prevIssue) { %]
-						<a href="../..[%= pathTo('issue', { issueNum: prevIssue.getNumber('issue.issue_number') }) %]"
+						<a href="../..[%= pathTo('issue', { issueNum: prevIssue.getIssueNumber() }) %]"
 							>&laquo; Last Issue</a>
 					[% } else { %]
 						[% if (firstArticle) { %]
@@ -98,7 +97,7 @@
 					[% } %]
 
 					[% if (nextIssue) { %]
-						<a href="../..[%= pathTo('issue', { issueNum: nextIssue.getNumber('issue.issue_number') }) %]" class="pull-right"
+						<a href="../..[%= pathTo('issue', { issueNum: nextIssue.getIssueNumber() }) %]" class="pull-right"
 							>Jump to next issue &raquo;</a>
 					[% } else { %]
 						[% if (firstArticle) { %]

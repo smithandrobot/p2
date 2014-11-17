@@ -2,7 +2,7 @@
 <script type="text/prismic-query" data-binding="documents">
 [[:d = any(document.id, ["VGJbyyYAACcAdtxb"])]]
 </script>
-[% document = documents[0] %]
+[% document = helpers.potato.wrapDocument(documents[0]) %]
 
 <script type="text/prismic-query" data-binding="issues">
 [[:d = any(document.type, ["issue"])]]
@@ -18,7 +18,7 @@
 	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
 	<script src="../../assets/js/keymaster.min.js"></script>
 
-	<title>Magazine | [%= document.getText('page.title') %]</title>
+	<title>Magazine | [%= document.getTitle() %]</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:url" content="[%= urlToHere() %]" />
@@ -41,8 +41,8 @@
 	<div class="container">
 		<section class="table-of-contents">
 			<header class="cover">
-				[% if (document.getImage('page.image')) { %]
-					<img src="[%= document.getImage('page.image').main.url %]" style="width:100%;height:100%" />
+				[% if (document.getImage()) { %]
+					<img src="[%= document.getImage().main.url %]" style="width:100%;height:100%" />
 				[% } %]
 			</header>
 
@@ -55,12 +55,13 @@
 			</div>
 
 			<section class="issue-notes">
-				<h1>[%= document.getText('page.title') %]</h1>
-				[%- document.getStructuredText('page.content').asHtml(null, helpers.serializer) %]
+				<h1>[%= document.getTitle() %]</h1>
+				[%- document.getContent().asHtml(null, helpers.serializer)%]
 				
 				<p>In the meantime, you can check out one of our fantastic previous issues:</p>
 				<ul>[% _.each(issues.reverse(), function(issue) { %]
-					<li><a href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]"
+					[% issue = helpers.potato.wrapDocument(issue) %]
+					<li><a href="../..[%= pathTo('issue', { issueNum: issue.getIssueNumber() }) %]"
 						>[%= helpers.issueLabel(issue) %]
 					</a></li>
 				[% }) %]</ul>

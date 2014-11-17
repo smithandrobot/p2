@@ -37,27 +37,19 @@ function replaceGist(data) {
 var helpers = {
   serializer: require('./src/p2Serializer'),
   firstArticleInIssue: function(issue) {
-    var groups = issue.getGroup('issue.articles');
-    var articleID = groups ? groups.toArray()[0].getLink('article').document.id : false;
-    if (articleID) {
-      var article = issue.loadedDocuments[articleID]
-      return article;
-    } else {
-      return false;
-    }
+    var articles = issue.getArticles();
+    return articles.length? articles[0].getArticle() : false;
   },
   
   offsetArticleInIssue: function(issue, article, offset) {
-    var searchID = article.id;
-    var groups = issue.getGroup('issue.articles');
-    groups = groups ? groups.toArray() : [];
+    var searchID = article.id();
+    var groups = issue.getArticles();
     var length = groups.length;
     for (var i = 0; i < length; i++) {
-      var currentID = groups[i].getLink('article').document.id
+      var currentID = groups[i].getArticle().id();
       if ((currentID === searchID)) {
         if ((i + offset < length) && (i + offset >= 0)) {
-          var foundID = groups[i + offset].getLink('article').document.id;
-          return issue.loadedDocuments[foundID];
+          return groups[i + offset].getArticle();
         } else {
           return false;
         }
@@ -75,8 +67,8 @@ var helpers = {
  
   articleURLParams: function(issue, article) {
     return {
-      issueNum: issue.getNumber('issue.issue_number'),
-      slug: article.getText('article.slug')
+      issueNum: (issue.getIssueNumber? issue.getIssueNumber(): issue.getNumber('issue.issue_number')),
+      slug: (article.getSlug ? article.getSlug() : article.getText('article.slug'))
     };
   },
     
@@ -87,11 +79,11 @@ var helpers = {
    * to be changed to only search the issue.articles array
    **/
   articleInIssue: function(articles, issue) {
-    var issueArticleIDs = issue.linkedDocuments.map(function(doc) {
+    var issueArticleIDs = issue.container.linkedDocuments.map(function(doc) {
       return doc.id;
     });
     for (var i = 0; i < articles.length; i++) {
-      if (issueArticleIDs.indexOf(articles[i].id) > -1) {
+      if (issueArticleIDs.indexOf(articles[i].id()) > -1) {
         return articles[i];
       }
     }
@@ -100,18 +92,17 @@ var helpers = {
   },
   // Issue related
   issueLabel: function(issue) {
-    return 'Issue ' + issue.getText('issue.issue_number') + ', ' + issue.getText('issue.issue_date');
+    return 'Issue ' + issue.getIssueNumber() + ', ' + issue.getIssueDate();
   },
   issueLabelShort: function(issue) {
-    return 'Issue' + pad(issue.getText('issue.issue_number'), 2) + ', ' + issue.getText('issue.issue_date');
+    return 'Issue' + pad(issue.getIssueNumber(), 2) + ', ' + issue.getIssueDate();
   },
   issuePageNumber: function(issue, article) {
-    var articles = issue.getGroup('issue.articles');
-    articles = articles ? articles.toArray() : [];
-    var articleID = article.id;
+    var articles = issue.getArticles();
+    var articleID = article.id();
     var articleIndex = null;
     for (var i = 0; i < articles.length; i++) {
-      if (articleID === articles[i].getLink('article').document.id) {
+      if (articleID === articles[i].getArticle().id()) {
         articleIndex = i + 1;
         break;
       }
@@ -120,11 +111,13 @@ var helpers = {
   },
 
   offsetIssue: function(issues, currentIssue, offset) {
-    var issueNumber = currentIssue.getNumber('issue.issue_number');
+    var issueNumber = currentIssue.getIssueNumber();
     var offsetIssueNumber = issueNumber + offset;
 
     for (var i = 0; i < issues.length; i++) {
-      if (issues[i].getNumber('issue.issue_number') == offsetIssueNumber) {
+      var issue = issues[i];
+      var issueNumber = issue.getIssueNumber? issue.getIssueNumber() : issue.getNumber('issue.issue_number');
+      if (issueNumber == offsetIssueNumber) {
         return issues[i];
       }
     }
