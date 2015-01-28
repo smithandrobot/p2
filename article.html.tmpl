@@ -2,12 +2,13 @@
 <script type="text/prismic-query" data-binding="issues" data-eager="true">
 [[:d = at(my.issue.issue_number, $issueNum)]]
 </script>
-[% issue = issues[0] %]
+[% issue = helpers.potato.wrapDocument(issues[0]) %]
 <script type="text/prismic-query" data-binding="articles" data-eager="true">
 [[:d = at(my.article.slug, "$slug")]]
 </script>
+[% articles = helpers.potato.wrapDocuments(articles) %]
 [% article = helpers.articleInIssue(articles, issue) %]
-[% authorLinks = article.getGroup('article.authors') %]
+[% authorGroups = article.getAuthors() %]
 [% nextArticle = helpers.nextArticleInIssue(issue, article) %]
 [% prevArticle = helpers.prevArticleInIssue(issue, article) %]
 
@@ -19,7 +20,7 @@
 	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
 	<script src="../../assets/js/keymaster.min.js"></script>
 
-	<title>Magazine | [%= article.getText('article.title') %]</title>
+	<title>Magazine | [%= article.getTitle().asText() %]</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:url" content="[%= urlToHere() %]" />
@@ -30,17 +31,27 @@
 </head>
 
 <body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+	
 	<nav class="paginate">
 		[% if (prevArticle) { %]
 			<a id="prev" class="prev" href="../..[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
 		[% } else { %]
-			<a id="prev" class="prev" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
+			<a id="prev" class="prev" href="../..[%= pathTo('issue', { issueNum: issue.getIssueNumber() }) %]">◀</a>
 		[% } %]
 
 		[% if (nextArticle) { %]
 			<a id="next" class="next" href="../..[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
 		[% } else { %]
-			<a id="next" class="next" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
+			<a id="next" class="next" href="../..[%= pathTo('issue', { issueNum: issue.getIssueNumber() }) %]">▶</a>
 		[% } %]
 		<script>
 		key('left', function() {
@@ -63,46 +74,43 @@
 
 			<article>
 				<header>
-					<h1>[%= article.getText('article.title') %]</h1>
-					[% if (article.getText('article.subtitle')) { %]
-						<h3>[%= article.getText('article.subtitle') %]</h3>
+					<h1>[%= article.getTitle().asText() %]</h1>
+					[% if (article.getSubtitle) { %]
+						<h3>[%= article.getSubtitle() %]</h3>
 					[% } %]
 
-					[% if (authorLinks) { %]
+					[% if (authorGroups.length) { %]
 						<p class="byline">
-							Works and Music by 
-							[% people = _.map(authorLinks.toArray(), function(authorLink) { %]
-								[% author = article.loadedDocuments[authorLink.getLink('author').document.id] %]
-								[% return author.getText('author.full_name') %]
+							Works and Music by
+							[% people = _.map(authorGroups, function(group) { %]
+								[% return group.getAuthor().getFullName().asText() %]
 							[% }) %]
 							[%= people.join(' and ') %]
 						</p>
 					[% } %]
 				</header>
 				<div class="article-body">
-					[%- content = helpers.customRender(article.getStructuredText('article.content').asHtml(null, helpers.serializer)) %]
+					[%- content = helpers.customRender(article.getContent().asHtml(null, helpers.serializer)) %]
 				</div>
 
 				<aside class="left-column clearfix">
 					<div class="author">
-					
-					[% if (authorLinks) { %]
-						[% _.each(authorLinks.toArray(), function(authorLink) { %]
-							[% author = article.loadedDocuments[authorLink.getLink('author').document.id] %]
-							[% image = author.getImage('author.image') %]
-							<div>
-								<a href="#">
-									<img class="author-avatar" src="[%= image.views.thumbnail.url %]" />
-								</a>
-								<div>[%= author.getText('author.full_name') %]</div>
-								[% if (author.getText('author.twitter_handle')) { %]
-									<a href="http://twitter.com/[%= author.getText('author.twitter_handle') %]">
-										@[%= author.getText('author.twitter_handle') %]
-									</a>
-								[% } %]
-							</div>
-						[% }) %]
-					[% } %]
+
+                    [% _.each(authorGroups, function(group) { %]
+                        [% author = group.getAuthor() %]
+                        [% image = author.getImage() %]
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="[%= image.views.thumbnail.url %]" />
+                            </a>
+                            <div>[%= author.getFullName().asText() %]</div>
+                            [% if (author.getTwitterHandle && author.getTwitterHandle()) { %]
+                                <a href="http://twitter.com/[%= author.getTwitterHandle() %]">
+                                    @[%= author.getTwitterHandle() %]
+                                </a>
+                            [% } %]
+                        </div>
+                    [% }) %]
 				</aside>
 			</article>
 		</section>
@@ -113,13 +121,13 @@
 			[% if (prevArticle) { %]
 				<a class="prev" href="../..[%= pathTo('article', helpers.articleURLParams(issue, prevArticle)) %]">◀</a>
 			[% } else { %]
-				<a class="prev" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">◀</a>
+				<a class="prev" href="../..[%= pathTo('issue', { issueNum: issue.getIssueNumber() }) %]">◀</a>
 			[% } %]
 
 			[% if (nextArticle) { %]
 				<a class="next" href="../..[%= pathTo('article', helpers.articleURLParams(issue, nextArticle)) %]">▶</a>
 			[% } else { %]
-				<a class="next" href="../..[%= pathTo('issue', { issueNum: issue.getNumber('issue.issue_number') }) %]">▶</a>
+				<a class="next" href="../..[%= pathTo('issue', { issueNum: issue.getIssueNumber() }) %]">▶</a>
 			[% } %]
 		</nav>
 	</div>
