@@ -2,8 +2,8 @@
 
 ## Summary
 
-Install: `npm install`
-Build: `gulp`
+Install: `npm install`  
+Build: `gulp`  
 Deploy: `./build_deploy.sh`
 
 ## Editing Content
