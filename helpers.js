@@ -1,3 +1,5 @@
+var _ = require('lodash');
+
 function pad(n, width, z) {
     z = z || '0';
     n = n + '';
@@ -79,9 +81,10 @@ var helpers = {
    * to be changed to only search the issue.articles array
    **/
   articleInIssue: function(articles, issue) {
-    var issueArticleIDs = issue.container.linkedDocuments.map(function(doc) {
+    var issueArticleIDs = issue.container.linkedDocuments().map(function(doc) {
       return doc.id;
     });
+
     for (var i = 0; i < articles.length; i++) {
       if (issueArticleIDs.indexOf(articles[i].id()) > -1) {
         return articles[i];
@@ -146,6 +149,44 @@ var helpers = {
     data = replaceGist(data);
 
     return data;
+  },
+
+  // view modules
+  articleViewModel: function(rawIssues, rawArticles) {
+    var issue = this.potato.wrapDocument(rawIssues.results[0]),
+      article = this.potato.wrapDocument(rawArticles.results[0]);
+
+    var authors  = article.getAuthors();
+    var nextArticle = this.nextArticleInIssue(issue, article);
+    var prevArticle = this.prevArticleInIssue(issue, article);
+
+    return {
+      issue: issue,
+      article: article,
+      authors: authors,
+      nextArticle: nextArticle,
+      prevArticle: prevArticle
+    };
+  },
+  issueViewModel: function(rawIssue, rawAllIssues) {
+    var issue = this.potato.wrapDocument(rawIssue.results[0]),
+      allIssues = this.potato.wrapDocuments(rawAllIssues.results);
+
+    var firstArticle = this.firstArticleInIssue(issue);
+    var nextIssue = this.nextIssue(allIssues, issue);
+    var prevIssue = this.prevIssue(allIssues, issue);
+    var articles = _.map(issue.getArticles(), function(group) {
+      return group.getArticle();
+    });
+
+
+    return {
+      issue: issue,
+      firstArticle: firstArticle,
+      nextIssue: nextIssue,
+      prevIssue: prevIssue,
+      articles: articles
+    };
   }
 };
 

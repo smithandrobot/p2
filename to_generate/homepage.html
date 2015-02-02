@@ -2,12 +2,12 @@
 <script type="text/prismic-query" data-binding="documents">
 [[:d = any(document.id, ["VGJbyyYAACcAdtxb"])]]
 </script>
-[% document = helpers.potato.wrapDocument(documents[0]) %]
+[% document = helpers.potato.wrapDocument(documents.results[0]) %]
 
 <script type="text/prismic-query" data-binding="issues">
 [[:d = any(document.type, ["issue"])]]
 </script>
-[% issues = helpers.sortDocumentsBy(issues, 'issue.issue_number') %]
+[% issues = helpers.sortDocumentsBy(issues.results, 'issue.issue_number') %]
 [% nextIssue = issues[0] %]
 
 <html>
