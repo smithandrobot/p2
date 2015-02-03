@@ -2,14 +2,10 @@
 <script type="text/prismic-query" data-binding="issues" data-eager="true">
 [[:d = at(my.issue.issue_number, $issueNum)]]
 </script>
-[% issue = helpers.potato.wrapDocument(issues[0]) %]
 <script type="text/prismic-query" data-binding="allIssues">
 [[:d = any(document.type, ["issue"])]]
 </script>
-[% allIssues = helpers.potato.wrapDocuments(allIssues) %]
-[% firstArticle = helpers.firstArticleInIssue(issue) %]
-[% nextIssue = helpers.nextIssue(allIssues, issue) %]
-[% prevIssue = helpers.prevIssue(allIssues, issue) %]
+[% viewModel = helpers.issueViewModel(issues, allIssues) %]
 
 <html>
 <head>
@@ -19,7 +15,7 @@
 	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
 	<script src="../../assets/js/keymaster.min.js"></script>
 
-	<title>Magazine | [%= issue.getTitle() %]</title>
+	<title>Magazine | [%= viewModel.issue.getTitle() %]</title>
 	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<meta property="og:url" content="[%= urlToHere() %]" />
@@ -40,8 +36,8 @@
 	<!-- End Google Tag Manager -->
 	
 	<nav class="paginate">
-		[% if (firstArticle) { %]
-			<a id="next" href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="next">▶</a>
+		[% if (viewModel.firstArticle) { %]
+			<a id="next" href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.firstArticle )) %]" class="next">▶</a>
 			<script>
 			key('right', function(){
 				window.open($("#next")[0].href, '_self', false);
@@ -53,11 +49,11 @@
 	<div class="container">
 		<section class="table-of-contents">
 			<header class="cover">
-				[% if (issue.getImage()) { %]
-					<img src="[%= issue.getImage().main.url %]" style="width:100%;height:100%" />
+				[% if (viewModel.issue.getImage()) { %]
+					<img src="[%= viewModel.issue.getImage().main.url %]" style="width:100%;height:100%" />
 				[% } %]
 			</header>
-			
+
 			<div class="logo">
 				<h1 id="title">P2</h1>
 				<h2 id="subtitle">Magazine</h2>
@@ -68,26 +64,24 @@
 
 			<nav class="issues">
 				<ul class="clearfix">
-					<li class="active"><a href="">[%= helpers.issueLabelShort(issue) %]</a></li>
-					[% if (firstArticle) { %]
+					<li class="active"><a href="">[%= helpers.issueLabelShort(viewModel.issue) %]</a></li>
+					[% if (viewModel.firstArticle) { %]
 						<li id="start-reading" class="pull-right">
-							<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]">Start Reading &raquo;</a>
+							<a href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.firstArticle )) %]">Start Reading &raquo;</a>
 						</li>
 					[% } %]
 				</ul>
 			</nav>
 
 			<section class="issue-notes">
-				<h1>[%= issue.getTitle() %]</h1>
-				[%- issue.getBody().asHtml(null, helpers.serializer) %]
+				<h1>[%= viewModel.issue.getTitle() %]</h1>
+				[%- viewModel.issue.getBody().asHtml(null, helpers.serializer) %]
 
 				<p>This month we feature:</p>
 
 				<ul>
-					[% _.each(issue.getArticles(), function(group) { %]
-						[% article = group.getArticle() %]
-
-						<li><a href="../..[%= pathTo('article', helpers.articleURLParams(issue, article)) %]"
+					[% _.each(viewModel.articles, function(article) { %]
+						<li><a href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, article)) %]"
 							>[%= article.getTitle().asText() %]
 						</a></li>
 					[% }) %]
@@ -96,22 +90,22 @@
 
 			<section class="issue-notes">
 				<h3>
-					[% if (prevIssue) { %]
-						<a href="../..[%= pathTo('issue', { issueNum: prevIssue.getIssueNumber() }) %]"
+					[% if (viewModel.prevIssue) { %]
+						<a href="../..[%= pathTo('issue', { issueNum: viewModel.prevIssue.getIssueNumber() }) %]"
 							>&laquo; Last Issue</a>
 					[% } else { %]
-						[% if (firstArticle) { %]
-							<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]"
+						[% if (viewModel.firstArticle) { %]
+							<a href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.firstArticle )) %]"
 								>Read this issue &raquo;</a>
 						[% } %]
 					[% } %]
 
-					[% if (nextIssue) { %]
-						<a href="../..[%= pathTo('issue', { issueNum: nextIssue.getIssueNumber() }) %]" class="pull-right"
+					[% if (viewModel.extIssue) { %]
+						<a href="../..[%= pathTo('issue', { issueNum: viewModel.nextIssue.getIssueNumber() }) %]" class="pull-right"
 							>Jump to next issue &raquo;</a>
 					[% } else { %]
-						[% if (firstArticle) { %]
-							<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="pull-right"
+						[% if (viewModel.firstArticle) { %]
+							<a href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.firstArticle )) %]" class="pull-right"
 								>Start Reading &raquo;</a>
 						[% } %]
 					[% } %]
@@ -122,8 +116,8 @@
 
 	<div id="bottom-pages">
 		<nav class="paginate">
-			[% if (firstArticle) { %]
-				<a href="../..[%= pathTo('article', helpers.articleURLParams(issue, firstArticle )) %]" class="next">▶</a>
+			[% if (viewModel.firstArticle) { %]
+				<a href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.firstArticle )) %]" class="next">▶</a>
 			[% } %]
 		</nav>
 	</div>
