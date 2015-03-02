@@ -100,6 +100,9 @@ var helpers = {
   issueLabelShort: function(issue) {
     return 'Issue' + pad(issue.getIssueNumber(), 2) + ', ' + issue.getIssueDate();
   },
+  issueNumberPadded: function(issue) {
+    return pad(issue.getIssueNumber(), 2);
+  },
   issuePageNumber: function(issue, article) {
     var articles = issue.getArticles();
     var articleID = article.id();
