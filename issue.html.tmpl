@@ -91,7 +91,7 @@
 			<section class="issue-notes">
 				<h3>
 					[% if (viewModel.prevIssue) { %]
-						<a href="../..[%= pathTo('issue', { issueNum: viewModel.prevIssue.getIssueNumber() }) %]"
+						<a href="../..[%= pathTo('issue', { issueNum: helpers.issueNumberPadded(viewModel.prevIssue) }) %]"
 							>&laquo; Last Issue</a>
 					[% } else { %]
 						[% if (viewModel.firstArticle) { %]
@@ -101,7 +101,7 @@
 					[% } %]
 
 					[% if (viewModel.extIssue) { %]
-						<a href="../..[%= pathTo('issue', { issueNum: viewModel.nextIssue.getIssueNumber() }) %]" class="pull-right"
+						<a href="../..[%= pathTo('issue', { issueNum: helpers.issueNumberPadded(viewModel.nextIssue) }) %]" class="pull-right"
 							>Jump to next issue &raquo;</a>
 					[% } else { %]
 						[% if (viewModel.firstArticle) { %]

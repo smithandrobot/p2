@@ -40,13 +40,13 @@
 		[% if (viewModel.prevArticle) { %]
 			<a id="prev" class="prev" href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.prevArticle)) %]">◀</a>
 		[% } else { %]
-			<a id="prev" class="prev" href="../..[%= pathTo('issue', { issueNum: viewModel.issue.getIssueNumber() }) %]">◀</a>
+			<a id="prev" class="prev" href="../..[%= pathTo('issue', { issueNum: helpers.issueNumberPadded(viewModel.issue) }) %]">◀</a>
 		[% } %]
 
 		[% if (viewModel.nextArticle) { %]
 			<a id="next" class="next" href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.nextArticle)) %]">▶</a>
 		[% } else { %]
-			<a id="next" class="next" href="../..[%= pathTo('issue', { issueNum: viewModel.issue.getIssueNumber() }) %]">▶</a>
+			<a id="next" class="next" href="../..[%= pathTo('issue', { issueNum: helpers.issueNumberPadded(viewModel.issue) }) %]">▶</a>
 		[% } %]
 		<script>
 		key('left', function() {
@@ -116,13 +116,13 @@
 			[% if (viewModel.prevArticle) { %]
 				<a class="prev" href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.prevArticle)) %]">◀</a>
 			[% } else { %]
-				<a class="prev" href="../..[%= pathTo('issue', { issueNum: viewModel.issue.getIssueNumber() }) %]">◀</a>
+				<a class="prev" href="../..[%= pathTo('issue', { issueNum: helpers.issueNumberPadded(viewModel.issue) }) %]">◀</a>
 			[% } %]
 
 			[% if (viewModel.nextArticle) { %]
 				<a class="next" href="../..[%= pathTo('article', helpers.articleURLParams(viewModel.issue, viewModel.nextArticle)) %]">▶</a>
 			[% } else { %]
-				<a class="next" href="../..[%= pathTo('issue', { issueNum: viewModel.issue.getIssueNumber() }) %]">▶</a>
+				<a class="next" href="../..[%= pathTo('issue', { issueNum: helpers.issueNumberPadded(viewModel.issue) }) %]">▶</a>
 			[% } %]
 		</nav>
 	</div>
