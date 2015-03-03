@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
+
+	<title>Magazine | Continuous Delivery on Windows, Part I: Blame your tools</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue06/cd-in-windows-part-1/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="../../issue06/four-ways-to-split-a-story/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="../../issue06/thoughtworks-com/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 6, November 2013</a></li>
+					<li class="pull-right">Page 2 / 11</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>Continuous Delivery on Windows, Part I: Blame your tools</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by
+							
+								
+							Rachel Laycock
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>The world of development and operations tooling and practices has moved on considerably in the last 10 years, when copying a dll onto a file-share or worse, installing software with a CD was the norm. The movement of DevOps, combining the practice of dev and ops working together and automation tooling, has enabled us to release well-tested features into many production-like environments.</p><blockquote><p>“Tooling is a solved problem in DevOps… Except if you are in Windows.”</p></blockquote><p>I keep hearing tooling is a solved problem in DevOps. But is that really the case on Windows? Let’s look at some of the technical challenges you will face on the Windows platform. With any problem, I like to break it up into understandable pieces. For Continuous Delivery (CD) on Windows these are: Build, Deployment, and Environment Provisioning. This month I’ll focus on Build.</p><h2>Build</h2><p>This is one of the few areas that is actually a solved problem in Windows. The only real challenges are self-imposed through bad tooling choices. Build is made up of source control management (SCM) and the orchestration of compilation, testing and packaging your application for deployment. For these tasks, you should choose tools that support the practice of Continuous Integration (CI), and that enable you to manage your builds exactly how you want. Your tool should be able to visualize which stage your build is in and give the team immediate feedback if it is broken.</p><h2>Source Control Management</h2><p>Most .NET teams will not necessarily choose their SCM. They usually have TFS as part of their Visual Studio installations and without prior knowledge believe it solves the problem. After all, it versions your code and stores it in a central location. What more do you want? Quite a bit. When you are doing CI, everyone on the team should be checking in once a day, but not on a broken build and your SCM should support that. TFS has two major failings, which until solved will always make me choose any alternative like git. Unlike git, TFS allows server side merging, but does not allow local commits. Why is this a problem? Lets start with server side merging.</p><blockquote><p>“I like doing CI so I don’t like using TFS.”</p></blockquote><h2>Server side merging</h2><p>As a developer, if I build and run tests locally and they pass, I expect the same behaviour when I commit to the server. TFS, however allows you to push without pulling. So instead of informing you that you don’t have the same version of code that is on the server, it will attempt to merge it for you. If this merge fails, the build will break. A broken build means no one else can check-in, which can slow the team down while they wait for it to be fixed.</p><h3>No local commits</h3><p>One of the features I love about git is the ability to keep checking in <strong>locally</strong> and therefore keep a detailed log of all my changes, allowing me to revert back to a different point in time. When I am ready to commit to the server I can use rebase to replay all of my commits in order on top of the server commit stack. So the record of commits is clean and clear. This feature is not available in TFS and I miss it. Yes you have shelvesets, but they are just the same as one big commit – no going back to specific points in time to allow scratch refactorings. You could in theory create many shelvesets, but that would quickly become unmanageable. I’d rather use a tool that enables my workflow.</p><h2>Orchestration</h2><p>This is a key part of the pipeline you are building in CD. You need to be able to orchestrate, from the moment a check-in occurs, the build, testing and packaging of your application. CI Servers like TeamCity and Go are perfect for orchestration as they allow you to run scripts and get visibility of the success of each of your check-ins, or at what stage it failed.</p><p>You might consider doing this with the built-in Team Build tool. I would not recommend this. Team Build will allow you to set up a sequential set of tasks with XAML, but as soon as you want to make changes to the set-up or run certain builds in certain circumstances (any logic really), you hit upon the maintenance problems of XML and it soon becomes very slow. I’ve seen builds that take 20 minutes on Team Build take only 3 on TeamCity.</p><h2>Compilation and testing</h2><p>Compilation and testing of your application was for a long time orchestrated using XML based tools like NAnt and then MSBuild, but thanks to some lessons learned from the *nix community we now have a DSL tool in the form of PSake, which allows you to programmatically create build tasks and enjoy all the goodness that DSLs provide over XML.</p><h2>Packaging</h2><p>Finally, you will want to package your application and for that you can use NuGet. It suffers from a mostly GUI and XML interface, but it does allow you to package your dlls with their configuration into components you can then version and manage.</p><blockquote><p>“If your tools slow you down… then choose better tools”</p></blockquote><h2>Choose the right tool for the job</h2><p>There really is no excuse for not getting the build part of CD right. Simply choose tools that are easy to understand, manage and modify. I know TFS and Team Build are already paid for in many cases, but that does not make them the right tool for the job.</p><p>If your tools slow you down or hinder your ability to do CI then choose better tools. Do yourself a favour: until TFS and TeamBuild improve, choose tools that support CI. Unlike deployment and environment provisioning in Windows, build is a solved problem. Why make a rod for your own back?</p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/02c436f9e99133d212317ca176bc1cf4a40880b7.jpg" />
+                            </a>
+                            <div>Rachel Laycock</div>
+                            
+                        </div>
+                    
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="../../issue06/four-ways-to-split-a-story/">◀</a>
+			
+
+			
+				<a class="next" href="../../issue06/thoughtworks-com/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue06/cd-in-windows-part-1/index.html","args":{"issueNum":"06","slug":"cd-in-windows-part-1"}};</script>
+</body>
+</html>
