@@ -1,0 +1,116 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
+
+	<title>Magazine | Improve This</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue06/improve-this/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="../../issue06/index/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="../../issue06/index/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 6, November 2013</a></li>
+					<li class="pull-right">Page null / 11</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>Improve This</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by
+							
+								
+							The P2 Elves
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>In improve this we take a look at a reader submitted test, user interface, story or block of code and we try and improve it, without context, explaining what we did as we went.</p><p>In this issue Anand has sent us a cucumber test that he’s asked us to improve.</p><p><script src="https://gist.github.com/distributedlife/5692407.js"></script></p><p>First up some incidental detail. “Given I or anyone else is, has or will log in” is the most ubiquitous waste of time that exists in the land of cucumber. Unless you’re testing user authentication, delete it.</p><p><script src="https://gist.github.com/distributedlife/5692415.js"></script></p><p>The usernames and passwords are not required here. The roles are potentially useful but having buyer_1 and buyer_2 as unique values for a ‘role’ – that represents a classification – is a smell. Who they ‘bid on behalf of’ for is never mentioned again so that is also incidental detail.</p><p><script src="https://gist.github.com/distributedlife/5692421.js"></script></p><p>‘Created’ can be implied from the fact you are publishing it and as the automatic run assignment is never mentioned so it might be incidental too. I’m inclined to delete it.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692423.js"></script></p><p>Ok. Although I would ignore how they get added to the Live Sale. And as listings seem to be of little consequence through the rest of the script I would delete this line entirely.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692452.js"></script></p><p>The ‘before Preview Start Time’ refers to a state that a sale exists in. Implying state is bad because you end up referring to it in roundabout ways. Make it a first class part of your system. I’m not sure what this state is but it might be something like preparation. We also need to consider whether anyone “cannot” suspend the live sale or if only the admin cannot suspend the live sale. I suspect it’s anyone cannot suspend it. So let’s remove the admin reference.</p><p><script src="https://gist.github.com/distributedlife/5692457.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692489.js"></script></p><p>Ok, now we can suspend the auction as it has started. So we should make this a separate test rather than a flow. Here we have an admin suspending an auction. Do we need tests for other roles not having the ability to suspend auctions?</p><p><script src="https://gist.github.com/distributedlife/5692492.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692495.js"></script></p><p>Ok, so now we have some behavior where logged-in users are shown a message when a sale is suspended. It’s not clear why buyer_2 does not see get notified. I can’t see any buyer_1 steps earlier on, that don’t include buyer_2.</p><p>I don’t like implementation detail in tests. This test implies that only users online now, will be notified of the Live Sale suspension.</p><p><script src="https://gist.github.com/distributedlife/5692506.js"></script></p><p>We test that we notify users of the suspension but not how they are notified.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692513.js"></script></p><p>Here we are testing for the absence of something. Do any users see the popup? If not, how can we test for something that was never built. Deleted.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692519.js"></script></p><p>The auction starts with an initial bid. However it’s not clear if we are testing that only an auctioneer can set the starting bid or, if setting the start bid starts the auction. I’m inclined to say the latter.</p><p><script src="https://gist.github.com/distributedlife/5692521.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692524.js"></script></p><p>Ok, buyer 1 and 2 have both bid now. Then the auctioneer does a Sell and then a No Sale on the listing. What is a listing? It has only been mentioned once before on the second line of the script.</p><p>The last verification suggests that sales can be suspended but only if it is in the No Sale state. However there is no guarantee of this. I’m not sure what ‘No Sale’ means exactly. It’s a strange name for a state but i’ll let it pass but would no called it a ‘No Sale auction’ but a ‘No Sale’.</p><p><script src="https://gist.github.com/distributedlife/5692528.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692539.js"></script></p><p>Listings are back and they can run. The important thing here is that the auctioneer ends the auction after the listings have run. Not that having the listings finish running automatically ends the auction. I see listings as not important.</p><p><script src="https://gist.github.com/distributedlife/5692540.js"></script></p><p>Done.</p><p>The main things we covered were around domain language and removing the implementation from the notifications. We removed lots of incidental detail and clarified some behaviour around state transition and who is authorised to do what.</p><p>We’ve made a lot of assumptions about how this system works and how the cucumber file is used. We’ve ignored how the cucumber file got to where it is today and followed a simple rule: if someone can’t understand how it works from reading it, then it needs improvement.</p><p>Do you have something you want improved? Send it to <a href="mailto:p2@thoughtworks.com">p2@thoughtworks.com</a>.</p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/74dd76ff6340a4b1c69e5f5a31da15dfe859df8f.jpg" />
+                            </a>
+                            <div>The P2 Elves</div>
+                            
+                        </div>
+                    
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="../../issue06/index/">◀</a>
+			
+
+			
+				<a class="next" href="../../issue06/index/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue06/improve-this/index.html","args":{"issueNum":"06","slug":"improve-this"}};</script>
+</body>
+</html>
