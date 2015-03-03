@@ -69,7 +69,7 @@ var helpers = {
  
   articleURLParams: function(issue, article) {
     return {
-      issueNum: (issue.getIssueNumber? issue.getIssueNumber(): issue.getNumber('issue.issue_number')),
+      issueNum: pad(issue.getIssueNumber? issue.getIssueNumber(): issue.getNumber('issue.issue_number'), 2),
       slug: (article.getSlug ? article.getSlug() : article.getText('article.slug'))
     };
   },
