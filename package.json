@@ -2,7 +2,7 @@
   "name": "p2-magazine",
   "devDependencies": {
   	"baked": "~0.2.0",
-    "potato": "https://github.com/smithandrobot/potato.js/tarball/master",
+    "potato.js": "git+https://github.com/smithandrobot/potato.js.git#v0.2.1",
     "gulp": "^3.7.0",
     "lodash": "^2.4.1"
   }
