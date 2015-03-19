@@ -38,11 +38,11 @@
 
 	<nav class="paginate">
 		
-			<a id="prev" class="prev" href="../../issue02/index/">◀</a>
+			<a id="prev" class="prev" href="../../issue02/improve-this/">◀</a>
 		
 
 		
-			<a id="next" class="next" href="../../issue02/index/">▶</a>
+			<a id="next" class="next" href="../../issue02/credits/">▶</a>
 		
 		<script>
 		key('left', function() {
@@ -59,13 +59,15 @@
 			<nav class="issues">
 				<ul class="clearfix">
 					<li class="active"><a href="">Issue 2, August 2013</a></li>
-					<li class="pull-right">Page null / 7</li>
+					<li class="pull-right">Page 6 / 7</li>
 				</ul>
 			</nav>
 
 			<article>
 				<header>
 					<h1>Puzzle</h1>
+					
+						<h3>Train station throughput</h3>
 					
 
 					
@@ -78,7 +80,7 @@
 					
 				</header>
 				<div class="article-body">
-					<p>This month’s coding challenge visits us from the land of Java. What we have is a question of execution order. The first person to respond with the correct answer and why gets their name in the winners circle for next issue.</p><p>Exhibit A — What is the result of this function?</p><p><script src="https://gist.github.com/distributedlife/5692366.js"></script></p><p>Exhibit B — What is the value of ‘value’ after this function is executed?</p><p><script src="https://gist.github.com/distributedlife/5692369.js"></script></p><p>Send your answers to <a href="mailto:p2@thoughtworks.com">p2@thoughtworks.com</a>.</p>
+					<p>Consider a city where there train network has two zones. Zones impact the cost of a journey. The more zones crossed the more the journey costs. Each passenger has to swipe their ticket to indicate the end of their journey. Within this network there is a station that gets quite busy at the end of the day.</p><p>“Here is a sketch of our train station (the dark triangles are the ticket readers):”</p><p class="block-img"><img src="https://prismic-io.s3.amazonaws.com/p2-magazine/8eaaf1b4b92bf68d4c1d03548f641d1ee88563b8.png" alt=""></p><p>The trouble is that this particular station sits in an increasingly popular area. As each month goes by the number of passengers alighting here goes up.</p><p>The question is: by changing only one thing how can we maximise the throughput of the alighting passengers?</p><p>Send your answers to p2@thoughtworks.com, once again the first person with the best answer wins.</p><h2>Last Issue’s Puzzle</h2><p>The Java Finally puzzle has joint-winners: Anand Krishnaswamy and Alex Ong. Alex SMS’d his answer within minutes of the issue being published but didn’t provide the why. Shortly afterwards Anand sent us this answer explaing why but didn’t tell us the answer.</p><p class="snippet">The spec says that all returns will attempt to return control to caller. So in the catch block the return attempts to return control by copying the to-be-returned value to the stack &amp; the proceeds to execute finally (if found). The finally doesn’t return anything. It merely sets the value of a local variable (which is a primitive type) which has no impact on the value copied on to the activation record. Hence, if the returned value is a primitive type or immutable (string) then there is no impact to alterations done in the finally.</p><p class="snippet">In the 2nd example, the return type is a user defined type &amp; hence the reference is set on the AR before the finally is attempted. The finally alters the contents of the reference [and] hence that is reflected in the caller. To verify this, alter the finally in the 2nd example as follows:</p><pre class="snippet">finally {<br>  marketEdge = new MarketEdge();<br>  marketEdge.value = 99;<br>}</pre><p class="snippet">Since the reference is altered from the one on the AR, changes are not reflected in the object being returned.</p><p class="snippet">The answer to Exhibit A is 30 and Exhibit B is 50.</p><p>Congratulations to Anand and Alex. You’re prize is a free copy of <em>What You Need to Know About Dates and Times in Computing</em>. Thanks to everyone else who responded.”</p>
 				</div>
 
 				<aside class="left-column clearfix">
@@ -103,11 +105,11 @@
 	<div id="bottom-pages">
 		<nav class="paginate">
 			
-				<a class="prev" href="../../issue02/index/">◀</a>
+				<a class="prev" href="../../issue02/improve-this/">◀</a>
 			
 
 			
-				<a class="next" href="../../issue02/index/">▶</a>
+				<a class="next" href="../../issue02/credits/">▶</a>
 			
 		</nav>
 	</div>

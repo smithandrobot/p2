@@ -38,11 +38,11 @@
 
 	<nav class="paginate">
 		
-			<a id="prev" class="prev" href="../../issue06/index/">◀</a>
+			<a id="prev" class="prev" href="../../issue06/cd-and-devops/">◀</a>
 		
 
 		
-			<a id="next" class="next" href="../../issue06/index/">▶</a>
+			<a id="next" class="next" href="../../issue06/puzzle/">▶</a>
 		
 		<script>
 		key('left', function() {
@@ -59,7 +59,7 @@
 			<nav class="issues">
 				<ul class="clearfix">
 					<li class="active"><a href="">Issue 6, November 2013</a></li>
-					<li class="pull-right">Page null / 11</li>
+					<li class="pull-right">Page 9 / 11</li>
 				</ul>
 			</nav>
 
@@ -73,12 +73,12 @@
 							Works and Music by
 							
 								
-							The P2 Elves
+							Musa Kurhula Baloyi
 						</p>
 					
 				</header>
 				<div class="article-body">
-					<p>In improve this we take a look at a reader submitted test, user interface, story or block of code and we try and improve it, without context, explaining what we did as we went.</p><p>In this issue Anand has sent us a cucumber test that he’s asked us to improve.</p><p><script src="https://gist.github.com/distributedlife/5692407.js"></script></p><p>First up some incidental detail. “Given I or anyone else is, has or will log in” is the most ubiquitous waste of time that exists in the land of cucumber. Unless you’re testing user authentication, delete it.</p><p><script src="https://gist.github.com/distributedlife/5692415.js"></script></p><p>The usernames and passwords are not required here. The roles are potentially useful but having buyer_1 and buyer_2 as unique values for a ‘role’ – that represents a classification – is a smell. Who they ‘bid on behalf of’ for is never mentioned again so that is also incidental detail.</p><p><script src="https://gist.github.com/distributedlife/5692421.js"></script></p><p>‘Created’ can be implied from the fact you are publishing it and as the automatic run assignment is never mentioned so it might be incidental too. I’m inclined to delete it.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692423.js"></script></p><p>Ok. Although I would ignore how they get added to the Live Sale. And as listings seem to be of little consequence through the rest of the script I would delete this line entirely.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692452.js"></script></p><p>The ‘before Preview Start Time’ refers to a state that a sale exists in. Implying state is bad because you end up referring to it in roundabout ways. Make it a first class part of your system. I’m not sure what this state is but it might be something like preparation. We also need to consider whether anyone “cannot” suspend the live sale or if only the admin cannot suspend the live sale. I suspect it’s anyone cannot suspend it. So let’s remove the admin reference.</p><p><script src="https://gist.github.com/distributedlife/5692457.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692489.js"></script></p><p>Ok, now we can suspend the auction as it has started. So we should make this a separate test rather than a flow. Here we have an admin suspending an auction. Do we need tests for other roles not having the ability to suspend auctions?</p><p><script src="https://gist.github.com/distributedlife/5692492.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692495.js"></script></p><p>Ok, so now we have some behavior where logged-in users are shown a message when a sale is suspended. It’s not clear why buyer_2 does not see get notified. I can’t see any buyer_1 steps earlier on, that don’t include buyer_2.</p><p>I don’t like implementation detail in tests. This test implies that only users online now, will be notified of the Live Sale suspension.</p><p><script src="https://gist.github.com/distributedlife/5692506.js"></script></p><p>We test that we notify users of the suspension but not how they are notified.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692513.js"></script></p><p>Here we are testing for the absence of something. Do any users see the popup? If not, how can we test for something that was never built. Deleted.</p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692519.js"></script></p><p>The auction starts with an initial bid. However it’s not clear if we are testing that only an auctioneer can set the starting bid or, if setting the start bid starts the auction. I’m inclined to say the latter.</p><p><script src="https://gist.github.com/distributedlife/5692521.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692524.js"></script></p><p>Ok, buyer 1 and 2 have both bid now. Then the auctioneer does a Sell and then a No Sale on the listing. What is a listing? It has only been mentioned once before on the second line of the script.</p><p>The last verification suggests that sales can be suspended but only if it is in the No Sale state. However there is no guarantee of this. I’m not sure what ‘No Sale’ means exactly. It’s a strange name for a state but i’ll let it pass but would no called it a ‘No Sale auction’ but a ‘No Sale’.</p><p><script src="https://gist.github.com/distributedlife/5692528.js"></script></p><p>Next.</p><p><script src="https://gist.github.com/distributedlife/5692539.js"></script></p><p>Listings are back and they can run. The important thing here is that the auctioneer ends the auction after the listings have run. Not that having the listings finish running automatically ends the auction. I see listings as not important.</p><p><script src="https://gist.github.com/distributedlife/5692540.js"></script></p><p>Done.</p><p>The main things we covered were around domain language and removing the implementation from the notifications. We removed lots of incidental detail and clarified some behaviour around state transition and who is authorised to do what.</p><p>We’ve made a lot of assumptions about how this system works and how the cucumber file is used. We’ve ignored how the cucumber file got to where it is today and followed a simple rule: if someone can’t understand how it works from reading it, then it needs improvement.</p><p>Do you have something you want improved? Send it to <a href="mailto:p2@thoughtworks.com">p2@thoughtworks.com</a>.</p>
+					<p><em>In improve this we take a look at a reader submitted test, user interface, story or block of code and we try and improve it, without context, explaining what we did as we went.</em></p><p>This month’s Improve This comes from Musa. Musa started with some code that he wrote before joining ThoughtWorks. He wanted to look back at what he’d learnt and see how the code he used to write has changed.</p><p>The code below populates sets up the initial board state for the game of Ncuva.</p><pre>a = [[], [], [], []]<br>width = 10<br>length = 4<br>stones = 2 # or 3</pre><pre>for i in range(length):<br>	for j in range(width):<br>		a[i].append(stones)<br>		if i == 1 and j == width - 2:<br>  		a[i][j] = 1<br>		if i == 1 and j == width - 1:<br>  		a[i][j] = 0<br>		if i == 2 and j == 0:<br>  		a[i][j] = 0<br>		if i == 2 and j == 1:<br>  		a[i][j] = 1<br>		if stones == 3:<br>  		if i == 1 and j == width - 3:<br>  			a[i][j] = 2<br>  		if i == 2 and j == 2:<br>  			a[i][j] = 2</pre><p>The for loop makes use of 3 global variables: the length, width and number of stones in each slot. The length and width control how much looping is done. The two cases for the number of stones catered for here are 2 and 3.</p><p>Executing this code will give rise to a structure like this:</p><p class="block-img"><img src="https://prismic-io.s3.amazonaws.com/p2-magazine/cacf7b2ffd1c38c310da8da916277c1c1bfd0388.png" alt=""></p><p>As you can see from the figure displayed above, there is a pattern at work here. The pattern screams out: there are too many 2’s! We gather that we do not have to loop through all of a to know how many stones to place in each slot.</p><p>On having noticed the pattern, we go ahead and fill a with 2 or 3 stones according to the user’s choice. How many corrections would we have to do if we filled a with 2’s? Would this approach provide any savings? 6 (at best 4) corrections are better than 4x10x5 (at worst 4x10x7) checks.</p><p>For the time being we leave out all the if statements.</p><pre>def array(stones, length): <br>  return [stones]*length</pre><pre>a = map(array, ([tincuva]*width, length))<br></pre><p>Instead of going another iteration around the board, we just pick the specific indices that have been assigned wrongly and give them correct values.</p><p>In fact, this for-loop can be optimised out by using the built-in map function.</p><p>According to ncuva rules, at the beginning of each game, the first and second slots in the second and third rows will always have no stone and 1 stone, respectively. If you look at the figure, you should notice that these slots are mirror images of each other. So we go ahead and assign these slots accordingly.</p><pre>a[1][width - 2] = 1<br>a[1][width - 1] = 0<br>a[2][0] = 0<br>a[2][1] = 1<br>if stones == 3:<br>	a[1][width - 3] = 2<br>	a[2][2] = 2</pre><p>Since Python has the ability to count from the end of a list going backwards, we can replace the calculation width – some_number with the negative of some_number. In fact, we do not need the if as a will not be changed incorrectly for stones = 2 or stones = 3.</p><pre>a[1][-3] = 2<br>a[1][-2] = 1<br>a[1][-1] = 0<br>a[2][0] = 0<br>a[2][1] = 1<br>a[2][2] = 2</pre><p>We now introduce a method so that a can be populated whenever needed and not just once when the game starts. set_board_up takes length, width and stones as input. This means we can get rid of these three lines:</p><pre>width = 10<br>length = 4<br>stones = 2 # or 3</pre><p>Comments and global variables are a sign of bad design.</p><p>We have given the method a meaningful name and so now we rename the variable a to board. We could probably guess that a is an array but we would never know where, when or how it is used. At the very least, the name board gives a hint.</p><pre>board = [[], [], [], []]</pre><pre>def set_board_up(length, breadth, tincuva):<br>  board = map(array, ([tincuva]*breadth, length))<br>  board[1][-3] = 2<br>  board[1][-2] = 1<br>  board[1][-1] = 0<br>  board[2][0] = 0<br>  board[2][1] = 1<br>  board[2][2] = 2<br>  return board</pre><p>In the method, we make other small naming changes. We change width to breadth to adhere to naming conventions when working with rectangles. In the same vein, ncuva players don’t only use stones as their tokens, they can use makanyi (morula fruit) or timongo (dry morula fruit), so we use the more generic term: tincuva.</p><p>Another small refactoring we can do to make the method shorter is make use of destructuring assignment to make multiple variable assignments on the same line. I made the judgment call of multiply assigning slots with the same value for readability. I could have done it on a per row basis.</p><pre>board[1][-1], board[2][0] = 0, 0<br>board[1][-2], board[2][1] = 1, 1<br>board[1][-3], board[2][2] = 2, 2</pre><p>The question is: why didn’t I come straight to this last result? The answer is simple: when you don’t know where you’re going, it’s hard to get there. Rewriting and testing the code with python helped me understand the code and intended result better. The thing with refactoring and clean code is that it is obvious afterwards, but not when you first write the code.</p>
 				</div>
 
 				<aside class="left-column clearfix">
@@ -89,9 +89,9 @@
                         
                         <div>
                             <a href="#">
-                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/74dd76ff6340a4b1c69e5f5a31da15dfe859df8f.jpg" />
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/d3490e5c8b6a209a9908cc0b414ef0fefea5badb.jpg" />
                             </a>
-                            <div>The P2 Elves</div>
+                            <div>Musa Kurhula Baloyi</div>
                             
                         </div>
                     
@@ -103,11 +103,11 @@
 	<div id="bottom-pages">
 		<nav class="paginate">
 			
-				<a class="prev" href="../../issue06/index/">◀</a>
+				<a class="prev" href="../../issue06/cd-and-devops/">◀</a>
 			
 
 			
-				<a class="next" href="../../issue06/index/">▶</a>
+				<a class="next" href="../../issue06/puzzle/">▶</a>
 			
 		</nav>
 	</div>
