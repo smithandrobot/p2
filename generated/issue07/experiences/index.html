@@ -38,11 +38,11 @@
 
 	<nav class="paginate">
 		
-			<a id="prev" class="prev" href="../../issue07/index/">◀</a>
+			<a id="prev" class="prev" href="../../issue07/test-martini/">◀</a>
 		
 
 		
-			<a id="next" class="next" href="../../issue07/index/">▶</a>
+			<a id="next" class="next" href="../../issue07/puzzle/">▶</a>
 		
 		<script>
 		key('left', function() {
@@ -59,7 +59,7 @@
 			<nav class="issues">
 				<ul class="clearfix">
 					<li class="active"><a href="">Issue 7, December 2013</a></li>
-					<li class="pull-right">Page null / 8</li>
+					<li class="pull-right">Page 6 / 8</li>
 				</ul>
 			</nav>
 
@@ -69,14 +69,35 @@
 					
 
 					
+						<p class="byline">
+							Works and Music by
+							
+								
+							Kornelis Sietsma
+						</p>
+					
 				</header>
 				<div class="article-body">
-					<p>In this series we ask ThoughtWorkers to talk about a challenging time for them. A time when learning a new programming language challenged and then changed the way they thought.</p><p>This month, Adam Scott tells us his story.</p><p>A long time ago, I decided to learn ruby. Up to that point, the only languages I had any real exposure to were: Java, and a smattering of C++ and JavaScript. In retrospect, my code was terrible. The incident that made me feel extremely foolish was my attempted overuse of dependency injection. All my objects had dependent services injected into them through constructors. I couldn’t work out why none of the tutorials had mentioned DI as a principle. My code looked messy and strange. I was missing a trick.</p><p>Then it hit me. The basic rules I had learned for Java, and had assumed where true for all languages, were far more limited than I had realised. It opened my eyes, that I like everyone else, could easily fall into the trap of Dunning–Kruger. I didn’t know half as much about programming as I thought I did, and learning a new language reminded me that there is always a better way of solving any problem.</p><p>With Ruby, the solution was to use other testing, injection and meta-programming techniques, and not to constrain my thinking to that of the Java world.</p>
+					<p>In this series we ask ThoughtWorkers to talk about a challenging time for them. A time when learning a new programming language challenged and then changed the way they thought.</p><p>This month, Korny tells us his story.</p><p>When I started using Clojure, it was a bit like a trip back in time. I learned to program in C. There you would put data into a struct, then use the right functions to manipulate it. This was of course risky and dangerous – structs were mutable, functions were ugly, and dispatching the right function to the right struct was complex and dangerous. Especially with no concept of unit testing. Then came OO, and C++. You could safely hide that struct from modification by putting it in an object, wrapping all mutation in methods, and dispatching to the right implementation through polymorphism. Problem solved.</p><p>Now we are in the future – we should have jet-packs and flying cars, but instead, along comes a language where you typically put data into maps (which look suspiciously like structs), and manipulate them with functions. However, this time it’s different: cunning data structures make the maps immutable <strong>and</strong> efficient; multimethods and higher-order functions mean you can dispatch the right functions to the right data however you like – and with protocols, you can even get a bit newfangled and dispatch that data based on it’s type.</p><p>Clojure really helped me revisit some of my assumptions. Nowadays in Ruby or JavaScript, or even in Java, instead of instinctively saying “how do I wrap that in an object?” I’ll consider whether OO is actually appropriate, or whether I can keep things simpler with data structures and a dash of FP. And I’ll try to stamp out mutable state wherever it might lurk.</p>
 				</div>
 
 				<aside class="left-column clearfix">
 					<div class="author">
 
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/c313846847729f1b392d2e5f4d4dc5bc4680c8f2.png" />
+                            </a>
+                            <div>Kornelis Sietsma</div>
+                            
+                                <a href="http://twitter.com/kornys">
+                                    @kornys
+                                </a>
+                            
+                        </div>
                     
 				</aside>
 			</article>
@@ -86,11 +107,11 @@
 	<div id="bottom-pages">
 		<nav class="paginate">
 			
-				<a class="prev" href="../../issue07/index/">◀</a>
+				<a class="prev" href="../../issue07/test-martini/">◀</a>
 			
 
 			
-				<a class="next" href="../../issue07/index/">▶</a>
+				<a class="next" href="../../issue07/puzzle/">▶</a>
 			
 		</nav>
 	</div>

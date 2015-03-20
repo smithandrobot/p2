@@ -38,11 +38,11 @@
 
 	<nav class="paginate">
 		
-			<a id="prev" class="prev" href="../../issue05/index/">◀</a>
+			<a id="prev" class="prev" href="../../issue05/bdd-on-legacy/">◀</a>
 		
 
 		
-			<a id="next" class="next" href="../../issue05/index/">▶</a>
+			<a id="next" class="next" href="../../issue05/credits/">▶</a>
 		
 		<script>
 		key('left', function() {
@@ -59,13 +59,15 @@
 			<nav class="issues">
 				<ul class="clearfix">
 					<li class="active"><a href="">Issue 5, October 2013</a></li>
-					<li class="pull-right">Page null / 8</li>
+					<li class="pull-right">Page 7 / 8</li>
 				</ul>
 			</nav>
 
 			<article>
 				<header>
 					<h1>Puzzle</h1>
+					
+						<h3>The Solution to dealing with possibilities</h3>
 					
 
 					
@@ -78,7 +80,7 @@
 					
 				</header>
 				<div class="article-body">
-					<p>This month’s coding challenge visits us from the land of Java. What we have is a question of execution order. The first person to respond with the correct answer and why gets their name in the winners circle for next issue.</p><p>Exhibit A — What is the result of this function?</p><p><script src="https://gist.github.com/distributedlife/5692366.js"></script></p><p>Exhibit B — What is the value of ‘value’ after this function is executed?</p><p><script src="https://gist.github.com/distributedlife/5692369.js"></script></p><p>Send your answers to <a href="mailto:p2@thoughtworks.com">p2@thoughtworks.com</a>.</p>
+					<p>No new puzzle this month. Let’s get straight into the answer from last month. Judging from the answers, this one wasn’t as explained as well as it could have been. So, we’ll go through what was in our brains when we wrote it.</p><p>There is a sequence that starts with: 2, 4, 6, 8 and is followed by a blank. There are many <strong>numbers</strong> that <strong>could</strong> follow. We weren’t aware of this when we wrote the puzzle but at oeis.org there are about 200 sequences, many obscure, some irrelevant, that start with 2, 4, 6, 8. I’m going to include the puzzle solution factoring in all of these potential, mostly obscure, sequences. From analysis of these obscure sequences, none continue to 3, 6, 13 or 26. This will be relevant later.</p><p>Of all the numbers that can follow they fall into <strong>three</strong> categories. The number could be larger, smaller or the same as the last. What we are trying to do is to reduce our options and we’re using a technique known as equivalence partitioning.</p><p>Initial thoughts guesses:</p><ul><li>2, 4, 6, 8, 6</li><li>2, 4, 6, 8, 8</li><li>2, 4, 6, 8, 10</li></ul><p>Our first four numbers show that the sequence isn’t a decreasing sequence. The smaller (6) and equal (8) numbers prove that the sequence doesn’t have to be increasing. The larger number, if you chose 10, tells you nothing new. But we can do better with our first guess:</p><ul><li>2, 4, 6, 8, 3</li></ul><p>If 3 is in the sequence, then we have a non-increasing sequence that allows odd numbers and isn’t an obscure sequence.</p><ul><li>2, 4, 6, 8, 3, -1</li></ul><p>If we follow that up with -1 and it is allowed, then we can have any number in the sequence and it will be allowed. If -1 is not allowed. We can have any non-negative number. Follow this up with a 0. If we allow 0, then we do allow any non-negative number. If 0 is not in the sequence, then our sequence has to be made of positive numbers.</p><ul><li>2, 4, 6, 8, 3, -1 –&gt; any number</li><li>2, 4, 6, 8, 3, -1x, 0 –&gt; any non-negative number</li><li>2, 4, 6, 8, 3, -1x, 0x –&gt; any positive number</li></ul><p>Let’s go back to the 3 and if that is not in the sequence. We should follow up with a 13. If we allow 13 then we know that odd numbers are ok, but smaller numbers are not. We also know that it isn’t an obscure sequence but we still not sure if the sequence is a greater than or a greater than or equal to. So we follow that up with another 13.</p><ul><li>2, 4, 6, 8, 3x, 13, 13 –&gt; Any number that is greater to or equal to the prior</li><li>2, 4, 6, 8, 3x, 13, 13x –&gt; Any number that is greater than the prior.</li></ul><p>What if 13 isn’t allowed. We are the point where we know that odd numbers are not allowed but that’s all we know. So we should follow that up with a 6. We need to know if smaller numbers are supported.</p><ul><li>2, 4, 6, 8, 3x, 13x, 6 –&gt; Any even number</li></ul><p>If the 6 is not successful we try an 8. If the 8 is in the sequence we have a greater than or equal to situation. When the 8 is not in the sequence we follow up with a 26. We need to know if the sequence is one of the obscure ones or just an ever increasing even number</p><ul><li>2, 4, 6, 8, 3x, 13x, 6x, 8 –&gt; any even number that is greater to or equal to the prior</li><li>2, 4, 6, 8, 3x, 13x, 6x, 8x, 26 –&gt; any even number that is greater than the prior</li><li>2, 4, 6, 8, 3x, 13x, 6x, 8x, 26x –&gt; a special pattern from oeis.org</li></ul><p>How do we deal with the special patterns? That same way we have before, what’s the number that tells us the most about what we don’t know yet. What challenges our assumptions the most.</p><p>Of the potential next numbers it could be 10, 12, 14, 16, 18, 20, 22, 24, 30, 32, 38, 50 and 212. But when waited for number of sequences that have that number next the order changes to: 10, 12, 16, 20, 24, 22, 14, 18, 30, 32, 38, 50 and 212. There are 37 sequences that continue to 10. 27 that continue to 12 and the remainder have 5 or fewer options, most only have 1.</p><p>We continue the process as before, whittling away. No prizes are awarded this month.</p><p class="centered">⁂</p><p>For those that want to do some analysis on the oeis.org dataset, you can do the following:</p><p>Get all the things:</p><pre><code class="gist">for (( c=0; c&lt;=854; c += 10 )) do<br>  wget -k "http://oeis.org/search?q=2,4,6,8&amp;start=$c&amp;fmt=data" -O $c.html;<br>done</code></pre><p>Merge all the things:</p><pre><code class="gist">cat *.html &gt; merged.html</code></pre><p>Open up sublime, and find all occurances of <span class="inline-code"><code>&lt;tt&gt;</code></span>, expand selection to the line, cut the selection. New document, paste. Remove the <span class="inline-code"><code>&lt;tt&gt;</code></span> and <span class="inline-code"><code>&lt;/tt&gt;</code></span>.</p><p>Now you have the dataset. F5 will sort the lines. Remove all those that don’t start with 2, 4, 6, 8. You can use a regex find here <span class="inline-code"><code>^2, 4, 6, 8</code></span>.</p><p>Enjoy.</p>
 				</div>
 
 				<aside class="left-column clearfix">
@@ -103,11 +105,11 @@
 	<div id="bottom-pages">
 		<nav class="paginate">
 			
-				<a class="prev" href="../../issue05/index/">◀</a>
+				<a class="prev" href="../../issue05/bdd-on-legacy/">◀</a>
 			
 
 			
-				<a class="next" href="../../issue05/index/">▶</a>
+				<a class="next" href="../../issue05/credits/">▶</a>
 			
 		</nav>
 	</div>
