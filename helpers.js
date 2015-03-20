@@ -157,9 +157,10 @@ var helpers = {
   // view modules
   articleViewModel: function(rawIssues, rawArticles) {
     var issue = this.potato.wrapDocument(rawIssues.results[0]),
-      article = this.potato.wrapDocument(rawArticles.results[0]);
+      articles = this.potato.wrapDocuments(rawArticles.results),
+      article = this.articleInIssue(articles, issue); // get the right article
 
-    var authors  = article.getAuthors();
+    var authors  = article.getAuthors ? article.getAuthors() : [];
     var nextArticle = this.nextArticleInIssue(issue, article);
     var prevArticle = this.prevArticleInIssue(issue, article);
 
