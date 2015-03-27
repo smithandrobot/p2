@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
+
+	<title>P2 Magazine | Improving Code in the Enterprise</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue11/improving-code-in-enterprise/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="../../issue11/the-future-of-cloud/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="../../issue11/https-and-certs/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 11, March 2015</a></li>
+					<li class="pull-right">Page 3 / 6</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>Improving Code in the Enterprise</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by
+							
+								
+							Kevin Hickey
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>Enterprise architects and managers often ask: “How can I improve the quality of the code my developers write?”.  This is often met with a list of tools and practices that developers can be assigned along with some details about how to apply them. Just to get that out of the way, they may include:</p><ul><li>Code reviews</li><li>Lunch-and-learn lectures or sessions</li><li>Production and posting of architectural diagrams</li><li>Coding katas</li><li>Documentation of coding and testing standards</li></ul><p>These all have a couple things in common. They are one-size-fits-all solutions that can be applied equally to each team and team member. They all communicate and clarify your vision to the team. Under the right circumstances, they can help the team improve.</p><p>The trouble is, under the wrong circumstances they can confuse the team or alienate the team members. They do not necessarily address the root causes of low quality, or even good quality that you want to make better. They are impersonal and are often ignored or opposed by developers, sometimes paving the way to apathy and lower quality.</p><h3>Individuals and interactions</h3><p>The Agile Manifesto values “Individuals and interactions over process and tools”.  The real key to improving a team is to understand its gaps and weaknesses.  That requires interacting with the individuals.  It is important to spend time with the development team as a group and as individuals to learn the strengths, weaknesses and goals of each. Understanding the codebase can help identify technical debt design flaws. Reviewing the history of the project and acknowledging the challenges faced in the past, can help you face them in the future.</p><p>As an architect, it is important to have a common understanding with the team that is implementing your vision. The simplest and most effective way to accomplish this is to have periodic one-on-one or group meetings with the development team. Even better, spend some time pairing with them on the code. Not only does this improve your view of what is happening on the ground, it also helps gain the respect of the development team which will improve communication. A little goes a long way in these interactions and the feedback the team brings can be invaluable in avoiding poor decisions.</p><h3>But what about the architecture?</h3><p>There is still room for architecture, design and coding standards. Instead of devising and communicating them, consider making it a conversation with the team that will have to live by these choices. It is very likely that the development team has experience or perspective the the architects do not, just as the architects have a broad view that the team usually lacks.  Sharing perspective in both directions can help everyone understand what the real problem is and how it is being solved. Constraints often feel less onerous when they are understood in the context of a larger problem space. A choice of an ESB makes little sense to an individual team providing a single web service. But if they understand the full landscape and why that decision makes sense on an enterprise level they will be more interested in working with it.</p><h3>Walk the code</h3><p>In addition to understanding the members of the team, it is important to understand the code they are writing and how they are creating it.  This can be done using static and dynamic code analysis tools for a broad metric-based understanding, but is best done by review and inspection. The team can walk you through the code when you meet with them and explain both the achievements and challenges. Understanding the codebase can help pinpoint what areas are lacking in design or implementation quality.  Only in having this understanding can you choose what improvements make sense for the team.</p><p><span class="blockquote">“Those who cannot remember the past are condemned to repeat it". </span></p><h3>The value of retrospectives</h3><p>“Those who cannot remember the past are condemned to repeat it" (Santayana, G).  Understanding the challenges the team has faced and how they have overcome or worked around them is another great source of information. Most often, “clever” solutions and workarounds increase tech debt and lower quality. Tradeoffs made under schedule pressure lead to compromises that are rarely resolved. Agile retrospectives, in the past called release post-mortems, are a great tool to learn from the team about their past experience. A wealth of formats exist, ranging from very informal discussions to highly regulated meetings. Selecting the right format for the team, which should be possible since you have gotten to know them, can help reveal low hanging fruit for improvement.</p><h3>The role of the architect</h3><p>To some, these activities sound like the duties of a tech lead, not an architect.  In some ways, they do overlap. The advantage of an architect is that no matter how much engagement you have, you are not a day-to-day member of the development team. That grants you and the team an “outsider” perspective, allowing you to identify and reveal issues and gaps that the team itself might miss. Finding the right balance and level of engagement is tricky and may require a few iterations to get right. Once it exists however, you can be an invaluable resource for the team.</p><p><span class="blockquote">“It all starts with knowing your team and valuing individuals and their goals over processes and tools.“</span></p><h3>Choose the practices for your team</h3><p>These practices are all about assessing the current state of the team and the code. Once you understand the team’s strengths and weaknesses, their challenges and goals, then you can implement practices to maximize the strengths and shore up the weaknesses. Team members working toward their goals are more likely to take positive action to grow. Reviews, katas, external learning, test strategy improvements or wholesale process changes each solve different problems and help the team in different ways. Armed with understanding you can choose the practices that will have a bigger impact and the greatest lift. It all starts with knowing your team and valuing individuals and their goals over processes and tools.</p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/4553d52922abbfe65e68bcfa14632f65ca82d46d_img_2836.jpg" />
+                            </a>
+                            <div>Kevin Hickey</div>
+                            
+                                <a href="http://twitter.com/kevin_m_hickey">
+                                    @kevin_m_hickey
+                                </a>
+                            
+                        </div>
+                    
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="../../issue11/the-future-of-cloud/">◀</a>
+			
+
+			
+				<a class="next" href="../../issue11/https-and-certs/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue11/improving-code-in-enterprise/index.html","args":{"issueNum":"11","slug":"improving-code-in-enterprise"}};</script>
+</body>
+</html>

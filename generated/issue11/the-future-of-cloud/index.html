@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
+
+	<title>P2 Magazine | The Future of Cloud</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue11/the-future-of-cloud/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="../../issue11/breaking-down-the-last-devops-silo/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="../../issue11/improving-code-in-enterprise/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 11, March 2015</a></li>
+					<li class="pull-right">Page 2 / 6</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>The Future of Cloud</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by
+							
+								
+							Piyush Srivastava
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>Cloud is a great enabler. The concept of a software defined infrastructure has been extremely instrumental in bringing new innovative products to the market. Companies small and large are realizing the benefits of not being hard wired to their hardware and procuring as much as they need, when they need it, on demand. Markets are volatile and unpredictable. Nobody is comfortable making decisions about an uncertain future. The best model that works in those cases is the one that is flexible. Cloud has given the elasticity that enables organizations to take calculated risks, experiment, innovate, and respond to market changes quickly without worrying too much on the ROI on their hardware investments.</p><h3>Cloud computing and the S-Curve</h3><p>Cloud computing is at a very interesting point in history. We are seeing some unique trends. Who knew managing data centers would be so interesting? Technologies powering the cloud are seeing rapid innovations driven by several factors: efficient utilization of data center space, security, decentralization and ease of taking an application from development to production. There is a lot happening in this space but there is still much to be done.</p><p>Ray Kurzweil in his book The Singularity is Near explains the technology evolution theory as follows:</p><p>image.1</p><p>Each technology develops in three stages:</p><ol><li>Slow growth (the early phase of exponential growth).</li><li>Rapid growth (the late, explosive phase of exponential growth).</li><li>A levelling off phase as a particular technology paradigm matures.</li></ol><p>The progression of these three stages looks like the letter S. The S curve illustration above shows how an ongoing exponential trend can be composed of a cascade of S-curves. Each successive S-curve is faster owing to the learnings that feed forward from the previous S-curves.</p><p>Cloud computing as a whole can be seen as a composition of several aspects: compute, networking and storage. There is a lot of momentum in network and storage e.g. Network Function Virtualization (NFV) and Software Defined Networking, respectively. For now, I would like to focus on compute. </p><h3>Virtualization</h3><p>The concept of virtualization is not new. It dates back all the way to the 1960s when IBM came up with a CP-40 time sharing system. The concept of cloud computing though, is relatively recent and has been continually pushing the limits of virtualization technologies. Hypervisor powered virtual machine virtualization sits on the levelling off (top right) part of the S-curve. There is a lot of maturity in this space and it is driven by a number of large public clouds e.g. Amazon and Rackspace. It is battle tested and mature, but it has some limitations. Booting up a guest as a complete virtual instance of an operating system means the whole kernel gets loaded with every boot. This has some disadvantages: slow boot times, wasted data center space and a large surface area for security attacks. The full Linux kernel is 16 million lines of code and has many vulnerabilities.</p><p><span class="blockquote"> “Full Server Virtualization is battle tested and mature, but it has some limitations.”</span></p><h3>Containers</h3><p>Containers are relatively new. Linux Container (LXC) first came out in 2008. LXC provides OS-level virtualization, meaning the kernel allows for isolated execution environments in the user space. After a slow start, containers are fast becoming mainstream and seeing rapid innovations. They are in the rapid exponential growth phase of the S-curve. Support for OS-level virtualization means that you don’t need to boot up a whole kernel for every virtual instance that you need. For an organization heavily operating in the cloud, this is a big win. It allows them to save a lot on space and still keep their architectures very simple. Single purpose VMs, though desirable, result in a lot of wastage. With containers, those problems go away. Google has been using containers in their data centers for a while, as full blown server virtualization is just too much for the scale that they operate. Docker has been grabbing a lot of attention with its technology, which makes containers really easy to use. </p><h3>Microkernels</h3><p>Now, lets talk about the far left of the S-curve. Containers still do not solve the security problem. If they share the same kernel space, they increase the surface attack area unless the kernels that they run on are minimal distros specially designed to run just containers. In the Docker world, there are a few operating systems like CoreOS and  RancherOS, which claim to be minimal linux kernels whose only purpose is to run Docker containers. This is where it gets interesting. Microkernels and Library Operating systems have not gained much mainstream attention until now, but they seem to be the next logical step forward. Microkernels are ground up based on the concept of minimality. The general rule is that a microkernel’s size should not exceed 10,000 lines of code. Only the things that are absolutely required to make an operating system, go into the kernel (low level address space management, thread management and interprocess communication). Traditional operating system functions like file systems, networking, and device drivers run in the user space. Microkernels were hot in the 1980s, but never gained mainstream attention due to performance concerns.</p><p><span class="blockquote">“Cloud based businesses are exploding and with them challenges around efficient utilization and security are growing exponentially.”</span></p><h3>Exokernels</h3><p>Library Operating Systems are implementations of Exokernels. Exokernels are based on the principle of forcing minimum hardware abstractions on OS developers. Monolith kernels provide hardware abstractions through virtual file systems and microkernels are based on message passing. Exokernels are just concerned about protection and resource multiplexing. The specific implementation of any hardware service can be implemented as a library in any abstraction you want rather than being limited to the abstractions provided by the kernel (vfs, sockets, virtual memory etc). This means that you can build your applications with only the libraries that you want. Exokernels are tiny and very light weight. One such implementation that comes to mind is MirageOS. This started off as a research project at the University of Cambridge and is now a Xen Incubation project. MirageOS is a library operating system written in type safe OCaml. The main motivations for choosing OCaml, being it is very light and secure. Application code along with required hardware libraries is packaged together in a unikernel and executed directly on the Xen hypervisor. It aims to provide security by developing it in a safe language like OCaml and of course by keeping it very tiny to reduce the surface area.</p><h3>The future is...</h3><p>Microkernels and Library OSes have yet to get to the phase of rapid exponential growth in their evolution, but I am positive that it will happen soon. Cloud based businesses are exploding and with them challenges around efficient utilization and security are growing exponentially. In turn, so will the rate of innovations for these technologies. Efficient utilization not only means there will be virtualized servers taking up very little space. But also that they will take no time to boot up and shutdown. When these technologies start climbing up the S-curve rapidly, we will one day see an ephemeral machine that launches on every incoming request and vanishes as soon as its done. The Future is Dust Clouds!</p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/1710f06facb4195ec547b3fcab2ba9c4e90fba9d_piyush_1.jpg" />
+                            </a>
+                            <div>Piyush Srivastava</div>
+                            
+                                <a href="http://twitter.com/piyush0101">
+                                    @piyush0101
+                                </a>
+                            
+                        </div>
+                    
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="../../issue11/breaking-down-the-last-devops-silo/">◀</a>
+			
+
+			
+				<a class="next" href="../../issue11/improving-code-in-enterprise/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue11/the-future-of-cloud/index.html","args":{"issueNum":"11","slug":"the-future-of-cloud"}};</script>
+</body>
+</html>

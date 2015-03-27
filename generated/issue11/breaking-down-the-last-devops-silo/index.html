@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
+
+	<title>P2 Magazine | Breaking down the Last DevOps Silo</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue11/breaking-down-the-last-devops-silo/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="../../issue11/index/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="../../issue11/the-future-of-cloud/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 11, March 2015</a></li>
+					<li class="pull-right">Page 1 / 6</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>Breaking down the Last DevOps Silo</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by
+							
+								
+							Abby Bangser
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>An analyst writing a DevOps article. Not what you expected? That is exactly the issue I want to tackle here.</p><p>We have all heard the stories of QAs who ring bells when they find defects, and we are not surprised when developers on those teams are scared of (or annoyed by) interacting with them. In contrast, teams that truly believe everyone brings unique skills to the table and are working together towards the same goal are far more effective. And most importantly, the end result is higher quality software. </p><p>I have been lucky to work with many different people at ThoughtWorks. But it’s also common, in consulting, to cross paths with those you have worked with before. One of these multi-project relationships was with James the resident “DevOps guys”. This relationship helped to identify and support the evolution of the DevOps culture on our second project together. But it did take some hard lessons…</p><p>James had been working on a technical task for a while when he reached out to me one day. </p><p><em>“Hey Abby, do you have a minute? I could use a second set of eyes.”</em></p><p>Of course I obliged and plopped down in the spare seat of his pairing station. Since James knew I was comfortable walking through the code he immediately took me to his RSpec tests to explain what he was up to. After a minute or two I realised how far down the rabbit hole we were getting… </p><p><em>“Whoa! Hold on a second. Can I take a look at the story first before we get started?” </em></p><p>James’ reaction should have been my first hint that something was a bit off. </p><p><em>“Oh yeah, let me give you some context. We are trying to implement blue-green deployments”.</em></p><p>But he still hadn’t opened the story card. Another minute or two of gaining context and I still wanted to see the exact specifications, so James opened the virtual card. After a quick glance it was clear why he hadn’t been so forthcoming.</p><p>Title: Implement blue green deployment</p><p>Acceptance Criteria:</p><p><div class="inline-table"><table><thead><th>Given </th><th>When </th><th>Then </th><th>Notes</th></thead><tr><td>Blue green deployment is not successful</td><td>deployment fails</td><td>Green deployment is not enabled</td><td></td></tr><tr><td>Blue green deployment is successful</td><td>deployment succeeds</td><td>Green deployment is enabled</td><td></td></tr><tr><td>Blue green deployment is successful</td><td>Deployment is successful</td><td>The SLA is not broken</td><td>SLA is under 1 hour of downtime each year</td></tr></table></div></p><p>My head started buzzing with questions. </p><p><em>“How do we know if the deployment succeeds?” <br>“How are we handling the database?” <br>“Do we destroy blue once green is deemed successful?”<br>“How does one hour per year translate per deployment?” and on and on…</em></p><p>As I began rattling off my questions, James started to get frustrated. After all he just wanted a “second set of eyes”, not the third degree.</p><p>Lets back up a second and remember why James asked me to sit down. He had identified the complexities of the card and after working on it for almost three weeks, was hoping to be nearing completion. Instead we began to realise we had bigger concerns on our team than this one dragging story.</p><p>We had some lively debates that centralized around the written down scope versus the actual goal of the original story. This conversation was mostly driven through a question and examples based process. By setting up clear examples of realistic use cases we were able to identify that these two versions of scope were not aligned. We decided that the only responsible way forward was to prioritise risks into those we needed to address “right now” and those that could be tackled in the “long term”.</p><p>“Right now” is an important part of being a software professional. There are a lot of “perfect” ideals in the world of software development, but there are also priorities and deadlines. Often you need to work incrementally to get working software in production, which is what supports the users in the end. </p><h3>Enter the “three amigos” strategy</h3><p>We used the “three amigos” strategy to create a balanced plan of attack. The three amigos are a risk analyst or QA (in this case yours truly), an implementation subject matter expert (SME - James) and a Technical Lead (Alex) taking an level application architecture perspective. By using the “three amigos” method, we had the smallest group possible, but still brought a diverse set of perspectives to identify any risks, answer questions, and forge a way forward. The key to success in this conversation is to always focus on delivering the intended business value as quickly as possible, while not forgetting key quality concerns. For us, this turned into a bit of a “Goldilocks and the Three Bears” game where we were looking for things that fit just right. </p><p><span class="blockquote">”The key to success in this conversation is to always focus on delivering the intended business value as quickly as possible, while not forgetting key quality concerns.”</span></p><h4>Identifying Risks and Splitting Stories</h4><p>One example of this balancing occurred when we focused on the Service-Level Agreement (SLA). We realised that while we are starting with a very small datastore, we need to implement a faster method of transfer as the data grows. This was important for long term success, but would not provide much value upfront. So instead we created and prioritised a separate story to tackle this concern later.</p><p>We also realised that we were putting our existing (blue) deployment into maintenance mode before completing the creation of our new (green) deployment. While this would only risk a few minutes of downtime if things went well, it would create indefinite downtime if the green failed to deploy properly. This was a large business risk, so as a part of this story we changed the order of operations to make sure we would fail as fast as possible before affecting the end users.</p><p>The final example was how we were utilising our Continuous Integration (CI) build tool, TeamCity. To run our automated tests we had three different steps that took about ten minutes each and spun up six different environments (including sandboxes) before a build was eligible for production. The pipeline had been growing and we were starting to feel some pain. Variables duplicated across build steps was especially painful during the development of this story. The clearest example of this was the need to manually test environment variables in each step. There was a lot of duplication here and no automated testing. TeamCity 8 had recently been released and we identified the concept of MetaRunners as an option for beginning to follow a more DRY (Don’t Repeat Yourself) methodology. Unfortunately, these MetaRunners were based on extracting common steps, which would take some time. We knew we could deliver the value to the customer sooner without them. This was a hard choice as the cost of testing was significant with the duplication. In the end this became the start of a longer term strategy.</p><p><span class="blockquote"> “the process we followed was a prototype for developing technical stories”</span></p><p>A few more days of debating and coding later, the story finally came through development and testing. The initial struggle aside, the team felt the story met both the business and technical needs we had at the time. More importantly, the process we followed was a prototype for developing technical stories. In order to never feel that pain again, our long term strategy had on one small rule. Treat every story or piece of functionality the same. </p><p>In the next issue I’ll dive into how to treat technical tasks just like every other story.<br></p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/911eec020b0f2ed64321da37d7e52878e752c7b0_profile_image_avatar-8ccc5c1e15324e41ec22745884146ddf.jpeg" />
+                            </a>
+                            <div>Abby Bangser</div>
+                            
+                                <a href="http://twitter.com/a_bangser">
+                                    @a_bangser
+                                </a>
+                            
+                        </div>
+                    
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="../../issue11/index/">◀</a>
+			
+
+			
+				<a class="next" href="../../issue11/the-future-of-cloud/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue11/breaking-down-the-last-devops-silo/index.html","args":{"issueNum":"11","slug":"breaking-down-the-last-devops-silo"}};</script>
+</body>
+</html>

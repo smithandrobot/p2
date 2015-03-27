@@ -1,0 +1,121 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
+
+	<title>P2 Magazine | Go CD - the right tool for the job?</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue11/go-cd-the-right-tool-for-he-job/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="../../issue11/https-and-certs/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="../../issue11/comic/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 11, March 2015</a></li>
+					<li class="pull-right">Page 5 / 6</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>Go CD - the right tool for the job?</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by
+							
+								
+							Max Griffiths
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>Moving to the right tool isn’t easy, is it?</p><p>Most of us go through a similar process when starting out on a new project: meet the team, meet the tools, the process, the objectives; but as DevOps/CD/automation practitioners we instinctively start looking at areas of inefficiency, optimisation, can we go faster?! This often leads to us suggesting tools that we’ve previously used, favour highly and want to introduce, so that the team can realise the same benefits you’ve previously experienced.</p><p>So, if we assume that all recommendations are slightly biased based on one's experience, and people have different experiences, is it possible to get consensus to change tools, which is often costly and painful? </p><p>Having listened to a client prioritize shorter cycle time, more stable releases and clearer deployment visibility, my team recently started a journey. We are moving from the Continuous Integration (CI) tool, Jenkins to the Continuous Delivery tool, Go.cd. I’ve failed at changes like this before, often attempted without proper appreciation of the consequences: a chain reaction of events that ensues for (sometimes) years to come. I’ve found that more work is needed than simply making a recommendation and acting on it: no matter how obvious the decision to switch tools may seem, doing comparison due diligence saves you a lot of effort (read: pain) later.</p><h3>What is Go-cd?</h3><p>Go-cd has grown up a lot, from it’s original incarnation as the Cruise Control CI tool in 2000, to a paid-for ThoughtWorks Studio product Go, and now as the current open source tool Go.cd (to avoid any confusion with golang, or that ancient Chinese board game played by really smart people). ‘Deployment pipelines’ are a first class concept. A concept that now has a community supporting it which takes concerns like parallelism, visualisation, and end-to-end traceability very seriously. Deployment pipelines as a concept considers the start of a pipeline to be a code change, and the end, a deployment to a customer facing environment like production.</p><h3>Marketing as code?</h3><p>The perception of bias increases when your company had a hand in the evolution of the tool they are suggesting. If financial gain were involved then a case could be made for ulterior motives, but now Go.cd is free I can only speculate on why... a conspiracy to embed ThoughtWorks branding? I’m cool with Infrastructure as Code, but Marketing as Code (copyright pending) is an interesting accusation. </p><p><span class="blockquote"> “We appear to lose peoples respect as tool agnostics when we consider consuming our own dog food.”</span></p><p>Other people suffer from bias speculation. Marco’s <a href="http://highops.com/insights/continuous-delivery-pipelines-gocd-vs-jenkins">early 2014 blog post</a> is still the most hit Jenkins vs Go-cd resource, but continues to be met with suspicion due to his ThoughtWorks Studios tenure. We appear to lose peoples respect as tool agnostics when we consider consuming our own dog food. Not invented here, anyone?</p><p>Unfortunately there is little else out there by way of comparison. Some of this is because the Jenkins community regularly pushes out plugins that bolt on elements of functionality and change the parameters of a comparison. </p><h3>Take it into your own hands</h3><p>On my team we installed Go-cd to pilot and demo the Value Stream Map visualisation. Although this alone was not enough to change a tool as embedded as Jenkins, we started to look at other areas of inefficiency where Go could offer value. We worked in parallel for two months - adding and modifying a pipeline in Jenkins, then proving we could do the same thing in Go-cd - but see a more coherent view of code promotion. But this was wasteful duplication and we needed to either drop Go or make a stand for it’s benefits.</p><p>image.1</p><p>Fig1. Go.cd Value Stream Map showing final Prod deployment with traceability back to all VCS repo’s, and fan-out:in capability.</p><h4>Step 1: To be agnostic you must be transparent</h4><p>Having had some experience failing to introduce new tools in a past life, I was adamant to do this by the numbers. I started an internal wiki page, visible to all, which broke down the needs of the programme from a CD perspective and compared Jenkins against Go for each need. It required investigating the major players in the Jenkins plugin marketplace: Build Pipeline, Delivery Pipeline and the newcomer with fan-in capability: Workflow. </p><p>image.2</p><p>Fig2. Jenkins Build Pipeline plugin</p><p>By having a central visible placeholder, comparing Go and Jenkins on specific value propositions, all team members can contribute to an unbiased (or perhaps biased from all sides!) informed foundation upon which a decision can be made. It was a good analytical start and important for future retrospecting of historical decisions. It was also important to acknowledge that all tools have issues and/or shortcomings and the road ahead will not be free of bumps. Posterity FTW!</p><h4>Step 2 Showcase, listen, document</h4><p>Showcase the new tool candidate amongst the people who will use it, listen to their concerns, and document. A lot of resistance comes about when change is dumped on people. Prove through doing: an hour here and there to show, listen and address concerns is courteous and reinforces relationships. </p><p>One word of warning, watch out for changing too quickly, especially in large teams. This can give the effect of a new tool failing, but the problem is really with its hasty delivery. It must be a ‘pull’ from teams rather than a ‘push’. “Thou shalt not feud based on differing opinions of relative tool merits.” You may have worked on projects where teams are too keen to switch tools, thinking that with the ‘latest and greatest’ surely world domination was possible; a different form of (novelty-based) danger. </p><p><span class="blockquote"> “What is important is that the people rowing the boat are rowing in the same direction.”</span></p><h3>You won’t escape all cynics</h3><p>Even with a careful approach, it can be clear some people still prefer a known evil. Depending on their level of influence and involvement, naysayers can be nurtured or ignored accordingly. What is important is that the people rowing the boat are rowing in the same direction, and the value of a new tool is understood by the most junior developer and explainable to the highest stakeholder. Promote a shared vision, transparent analysis, and collaboration with the right people and you might just get something close to ‘the right tool for the job’.<br></p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/c2577559d2e5366bf0e373f273ff7e7150fea074_1271138_10152301902744517_785020936_o.jpg" />
+                            </a>
+                            <div>Max Griffiths</div>
+                            
+                                <a href="http://twitter.com/_maxamg">
+                                    @_maxamg
+                                </a>
+                            
+                        </div>
+                    
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="../../issue11/https-and-certs/">◀</a>
+			
+
+			
+				<a class="next" href="../../issue11/comic/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue11/go-cd-the-right-tool-for-he-job/index.html","args":{"issueNum":"11","slug":"go-cd-the-right-tool-for-he-job"}};</script>
+</body>
+</html>

@@ -1,0 +1,136 @@
+<!DOCTYPE html>
+
+
+
+
+
+
+
+
+<html>
+<head>
+	<meta charset="utf-8">
+	<meta http-equiv="X-UA-Compatible" content="IE=edge">
+	<link href="../../stylesheets/screen.css" media="all" rel="stylesheet" type="text/css" />
+	<script src="http://modernizr.com/downloads/modernizr-2.5.3.js"></script>
+	<script src="//code.jquery.com/jquery-1.11.2.min.js"></script>
+	<script src="../../assets/js/keymaster.min.js"></script>
+
+	<title>P2 Magazine | HTTPS and certs</title>
+	<meta name="description" content="">
+	<meta name="viewport" content="width=device-width, initial-scale=1">
+	<meta property="og:url" content="http://localhost:8282/issue11/https-and-certs/" />
+
+	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
+    <meta name="prismic-routing-param" content="slug">
+    <meta name="prismic-routing-param" content="issueNum">
+</head>
+
+<body class="wrapper">
+	<!-- Google Tag Manager -->
+	<noscript><iframe src="//www.googletagmanager.com/ns.html?id=GTM-P97X8B"
+	height="0" width="0" style="display:none;visibility:hidden"></iframe></noscript>
+	<script>(function(w,d,s,l,i){w[l]=w[l]||[];w[l].push({'gtm.start':
+	new Date().getTime(),event:'gtm.js'});var f=d.getElementsByTagName(s)[0],
+	j=d.createElement(s),dl=l!='dataLayer'?'&l='+l:'';j.async=true;j.src=
+	'//www.googletagmanager.com/gtm.js?id='+i+dl;f.parentNode.insertBefore(j,f);
+	})(window,document,'script','dataLayer','GTM-P97X8B');</script>
+	<!-- End Google Tag Manager -->
+
+	<nav class="paginate">
+		
+			<a id="prev" class="prev" href="../../issue11/improving-code-in-enterprise/">◀</a>
+		
+
+		
+			<a id="next" class="next" href="../../issue11/go-cd-the-right-tool-for-he-job/">▶</a>
+		
+		<script>
+		key('left', function() {
+			window.open($("#prev")[0].href, '_self', false);
+		});
+		key('right', function(){
+			window.open($("#next")[0].href, '_self', false);
+        });
+		</script>
+	</nav>
+
+	<div class="container">
+		<section class="page">
+			<nav class="issues">
+				<ul class="clearfix">
+					<li class="active"><a href="">Issue 11, March 2015</a></li>
+					<li class="pull-right">Page 4 / 6</li>
+				</ul>
+			</nav>
+
+			<article>
+				<header>
+					<h1>HTTPS and certs</h1>
+					
+
+					
+						<p class="byline">
+							Works and Music by
+							
+								
+								
+							Marko Vuksanovic and Sam Gibson
+						</p>
+					
+				</header>
+				<div class="article-body">
+					<p>Security of our information over the internet is increasingly hot topic after the revelations of the last few years. It's now more important than ever that software developers as well as testers understand security and the implementation details of the current standards. HTTPS is one of the protocols widely used to enable secure communication. It is absolutely necessary when accessing your bank accounts through online banking system, buying a book on amazon or doing any other financial transaction. So lets take a deep dive into HTTPS and see how it actually works.</p><p>HTTPS isn’t actually a protocol in and of itself. It’s actually HTTP over the Secure Sockets Layer (SSL) or Transport Layer Security (TLS) protocols. TLS is the successor to SSL and the focus of this deep dive.</p><p>There are two parts to TLS protocol: </p><ol><li>TLS handshake protocol</li><li>TLS record protocol</li></ol><p>The TLS handshake protocol is used to establish a secure connection as well as to authenticate* (not to be confused with authorise) one or both of the parties who want to communicate. TLS record protocol is used to secure application data and to verify its integrity and origin.</p><h3>TLS Handshake - part 1</h3><p>The handshake protocol uses a series of messages to negotiate a secure connection. All but the last messages are plaintext. This means they are visible to anyone listening on the channel. The last messages sent by the client and the server are encrypted. Even though the messages are sent in plaintext, Diffie–Hellman key exchange protocol guarantees that the eavesdropper won’t be able to derive the keys used for encryption.</p><p>The following is an illustration of the messages that the client and server exchange. </p><p>image.1</p><p>The handshake is initiated by the client who sends the initial “Client Hello” message. The most important information this message contains are:</p><ol><li>Version number - The client should send the highest version number it supports.</li><li>Randomly generated data - a 32 byte number which includes client’s date (4 bytes) and a randomly generated number (28 bytes). This number will be used with server random value to generate a master secret, which will then be used for encryption.</li><li>Session ID - this is optional and if provided may be used to continue a previous session.</li><li>Cipher suites - a list of ciphers that client supports.</li><li>Compression algorithm - at the moment there is none supported.</li></ol><p>The server then responds with a “Server Hello” message. This message will contain:</p><ol><li>Version number - the highest number supported by both client and server.</li><li>Randomly generated data - similar to what client sent to the server, the server will now send another 28 byte random number, which the client uses to generate a master secret.</li><li>Session ID - this is optional and is used to tell the client if this is a new session or not as well as if this session can later be resumed or not.</li><li>Cipher suite - the strongest cipher supported by both client and server.</li><li>Compression algorithm - specifies the compression algorithm to use. At the moment there is none supported.</li></ol><h3>Certificates</h3><p>The next step is to authenticate the server to make sure it is who it claims to be. We do this through digital certificates. The Certificate is essentially a document, signed by a trusted authority and, in context of HTTPS, is used to verify identity of the domain. </p><p>In modern cryptography there are two families of algorithms - symmetric and public key. Both of these are used by TLS. </p><p>In symmetric encryption algorithms, the key used to encrypt the plaintext is the same as the key used to decrypt the ciphertext.</p><p>Public key encryption is used during the TLS handshake to authenticate the server and establish a new key, which is then used for symmetric encryption for data transfer. Public key algorithms have a key-pair (k1, k2). Both of these keys can be used to encrypt or decrypt, but only the other can perform the inverse. This key-pair is also called a public/private key pair. I've used indexes 1 and 2, but either of them can be used as the public or private key. The important part is that if 1 is used as public then 2 has to be private - and vice versa.</p><p>Public key cryptography is central to digital certificates and it works like this. Alice and Bob want to be able to send each other private messages. To do that Alice needs to send Bob her public key. Oscar places himself in between Alice and Bob. When Alice sends Bob her public key, Oscar replaces it with his own public key. When Alice next sends message to Bob, Oscar intercepts it, decrypts it using public key that he acquired, reads the message and encrypts the message using his own private key now. Oscar then sends newly encrypted message to Bob who has no idea that the message was already opened.</p><p>image.2</p><p>The solution to this problem is what is called a public key infrastructure (aka. PKI). One of the elements of PKI is a Certificate Authority (CA). A CA is an entity who issues digital certificates. Every browser comes with a set of CAs that it trusts called Trusted Authorities (TA). TLS uses these certificate authorities (CA) to vouch for identities of web sites. In essence, if you get a public key from Alice, you can check with a trusted authority (TA) whether that is really Alice’s public key or not.</p><p><span class="blockquote">“How do we establish trust relationship in the first place?”</span></p><p>Another problem that comes up is how do we establish trust relationship in the first place? How do we know that we are talking to a CA and not some man in the middle (attacker)? Public key cryptography can help us here too! This time, public/private key-pairs will be used to sign/verify certificates. It works like this. Instead of encrypting the data with private key, the sender (Alice) encrypts a small piece of data (a token) and sends both ciphertext and plaintext, which are together known as digital signature, to the receiver. The Receiver, who receives the digital signature will then use the sender’s public key to decrypt the encrypted part of the signature. If the token and decrypted message match, the receiver can be sure that the digital signature had to be produced by the owner of the private key.</p><p>This approach allows one party to “vouch” for another. One trusted party (CA) can sign the public key of another. The recipient can check the signature and if he trusts the signer he can be assured that the public key belongs to the bearer. This assumes that a trust relationship is established with the CA. This relationship manifests as a predefined set of certificate authorities that the browser trusts. Each browser vendor is free to choose the set.</p><h3>TLS handshake - part 2</h3><p>After the server sends a “Server Hello” message, it will also send its certificate. The client will verify this certificate and if the verification is successful it will proceed with the handshake.</p><p>At this point the client will send a “Client Key Exchange” message. This message contains premaster secret computer using both (client and server) random values and is encrypted using the public key found in server’s certificate. Both parties compute the master secret locally and derive a session key from it. If the server can decrypt this premaster secret then the client is assured that the server has the correct private key. <strong>This step is crucial to prove the authenticity of the server</strong>. This message will also contain a protocol version that is necessary to prevent the attacker from manipulating the message, and tricking the client and server into using earlier a version of the protocol which is less secure.</p><p>The next message the client sends is “Change Cipher Spec”. This is almost the end of the handshake and notifies the server that the messages that follow will be encrypted (using negotiated parameters).</p><p>The client will also send a “Finished” message, which is a hash of the entire conversation to this point and is the first message that is encrypted.</p><p>To fully complete the handshake the server needs to reply with:</p><ol><li>“Change Cipher Spec” message, which is used to tell the client that the messages that follow will be encrypted using the parameters just negotiated .</li><li>“Finished” message, which is a hash of the entire exchange to this point. If the client can successfully decrypt and verify hashes it is assured that TLS handshake was successful and the keys computed by the client are same as those computed by server.</li></ol><p>After the TLS handshake is complete, the client and server have established security parameters (cryptographic algorithm, key, etc) that will be used for communication. From this point on the client and server can use a secure communication channel to exchange messages. They can also be assured that the messages exchanged are between the intended participants.</p><p>From this point onwards, any HTTP requests will be sent using TLS Record protocol, which means the actual payload, after first being encrypted by the sender and the receiver, will have to verify the payload and decrypt it. The following illustrates layers through which a payload goes through.</p><p>image.3</p><h3>Summary</h3><p>In this short article we saw how HTTPS provides secure communication channel between client and server. For most readers, this will be enough to understand basics. But for those who are would like more details, I encourage you to look into certificates and how they work, the <a href="http://en.wikipedia.org/wiki/Diffie%E2%80%93Hellman_key_exchange">Diffie-Hellman Key Exchange protocol</a>, as well as openssl - an awesome tool that can be used to “dissect” TLS.</p><p>*Authentication verifies who you are. Authorisation verifies what you are authorised to do.</p>
+				</div>
+
+				<aside class="left-column clearfix">
+					<div class="author">
+
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/a0d3c86ff9f940ce028077e6c471d1754eb8767c_headshot.jpeg" />
+                            </a>
+                            <div>Marko Vuksanovic</div>
+                            
+                                <a href="http://twitter.com/mvuksano">
+                                    @mvuksano
+                                </a>
+                            
+                        </div>
+                    
+                        
+                        
+                        <div>
+                            <a href="#">
+                                <img class="author-avatar" src="https://prismic-io.s3.amazonaws.com/p2-magazine/1ec63cc1c05b384204506e7809a73b8529472861.jpg" />
+                            </a>
+                            <div>Sam Gibson</div>
+                            
+                                <a href="http://twitter.com/capnkrump">
+                                    @capnkrump
+                                </a>
+                            
+                        </div>
+                    
+				</aside>
+			</article>
+		</section>
+	</div>
+
+	<div id="bottom-pages">
+		<nav class="paginate">
+			
+				<a class="prev" href="../../issue11/improving-code-in-enterprise/">◀</a>
+			
+
+			
+				<a class="next" href="../../issue11/go-cd-the-right-tool-for-he-job/">▶</a>
+			
+		</nav>
+	</div>
+<script>window.routerInfosForFile = {"src":"/article.html","dst":"/issue11/https-and-certs/index.html","args":{"issueNum":"11","slug":"https-and-certs"}};</script>
+</body>
+</html>
