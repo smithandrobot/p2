@@ -74,7 +74,7 @@
 
 			<section class="issue-notes">
 				<h1>[%= viewModel.issue.getTitle() %]</h1>
-				[%- viewModel.issue.getBody().asHtml(null, helpers.serializer) %]
+				[%- viewModel.issue.getBody().asHtml(helpers.resolver.resolve, helpers.serializer) %]
 
 				<p>This month we feature:</p>
 

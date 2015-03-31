@@ -86,7 +86,7 @@
 					[% } %]
 				</header>
 				<div class="article-body">
-					[%- content = helpers.customRender(viewModel.article.getContent().asHtml(null, helpers.serializer)) %]
+					[%- content = helpers.customRender(viewModel.article.getContent().asHtml(helpers.resolver.resolve, helpers.serializer)) %]
 				</div>
 
 				<aside class="left-column clearfix">

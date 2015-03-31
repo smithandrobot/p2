@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<script type="text/prismic-query" data-binding="issues">
+[[:d = any(document.type, ["issue"])]]
+</script>
+<script type="text/prismic-query" data-binding="articles">
+[[:d = any(document.type, ["article"])]]
+</script>
+[% helpers.resolver.cacheResults(issues) %]
+[% helpers.resolver.cacheResults(articles) %]
+
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>P2 Magazine | ThoughtWorks</title>
+    <meta name="prismic-routing-pattern" content="bootstrap.html">
+</head>
+
+<body>
+    <ul>[% _.each(issues.results, function(issue) { %]
+        <li>[%= issue.get('issue.title').asText() %]</li>
+    [% }) %]</ul>
+    <ul>[% _.each(articles.results, function(article) { %]
+        <li>[%= article.get('article.title').asText() %]</li>
+    [% }) %]</ul>
+</body>
+</html>

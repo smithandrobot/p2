@@ -66,7 +66,7 @@
 
 			<section class="issue-notes">
 				<h1>[%= document.getTitle() %]</h1>
-				[%- document.getContent().asHtml(null, helpers.serializer)%]
+				[%- document.getContent().asHtml(helpers.resolver.resolve, helpers.serializer)%]
 				
 				<p>In the meantime, you can check out one of our fantastic previous issues:</p>
 				<ul>[% _.each(issues.reverse(), function(issue) { %]
