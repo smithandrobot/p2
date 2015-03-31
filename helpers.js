@@ -38,6 +38,8 @@ function replaceGist(data) {
 
 var helpers = {
   serializer: require('./src/p2Serializer'),
+  resolver: null,
+  
   firstArticleInIssue: function(issue) {
     var articles = issue.getArticles();
     return articles.length? articles[0].getArticle() : false;
