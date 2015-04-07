@@ -71,7 +71,7 @@
 			<article>
 				<header>
 					<h1>[%= viewModel.article.getTitle().asText() %]</h1>
-					[% if (viewModel.article.getSubtitle) { %]
+					[% if (viewModel.article.getSubtitle && viewModel.article.getSubtitle()) { %]
 						<h3>[%= viewModel.article.getSubtitle() %]</h3>
 					[% } %]
 
