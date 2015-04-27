@@ -171,7 +171,16 @@ var helpers = {
       article: article,
       authors: authors,
       nextArticle: nextArticle,
-      prevArticle: prevArticle
+      prevArticle: prevArticle,
+
+      meta: {
+        title: (article.getMetaTitle && article.getMetaTitle()) ? article.getMetaTitle() : article.getTitle().asText(),
+        description: (article.getMetaDescription && article.getMetaDescription()) ? article.getMetaDescription() : article.getContent().asText().substring(0, 150).trim(),
+        keywords: (article.getMetaKeywords && article.getMetaKeywords()) ? article.getMetaKeywords() : 'agile development, experience design, software design, software delivery, continuous delivery',
+        image: (article.getMetaImage && article.getMetaImage()) ? article.getMetaImage().main.url : // article meta image
+                  (issue.getMetaImage && issue.getMetaImage()) ? issue.getMetaImage().main.url : // issue meta image
+                    (issue.getImage && issue.getImage()) ? issue.getImage().main.url : '' // issue image
+      }
     };
   },
   issueViewModel: function(rawIssue, rawAllIssues) {
@@ -191,7 +200,15 @@ var helpers = {
       firstArticle: firstArticle,
       nextIssue: nextIssue,
       prevIssue: prevIssue,
-      articles: articles
+      articles: articles,
+
+      meta: {
+        title: (issue.getMetaTitle && issue.getMetaTitle()) ? issue.getMetaTitle() : issue.getTitle(),
+        description: (issue.getMetaDescription && issue.getMetaDescription()) ? issue.getMetaDescription() : issue.getBody().asText().substring(0, 150).trim(),
+        keywords: (issue.getMetaKeywords && issue.getMetaKeywords()) ? issue.getMetaKeywords() : 'agile development, experience design, software design, software delivery, continuous delivery',
+        image: (issue.getMetaImage && issue.getMetaImage()) ? issue.getMetaImage().main.url : // issue meta image
+                 (issue.getImage && issue.getImage()) ? issue.getImage().main.url : '' // issue image
+      }
     };
   }
 };

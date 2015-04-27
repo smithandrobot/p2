@@ -17,8 +17,19 @@
 	<script src="../../assets/js/keymaster.min.js"></script>
 
 	<title>P2 Magazine | [%= viewModel.article.getTitle().asText() %]</title>
-	<meta name="description" content="">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
+	
+	<meta name="news_keywords" content="[%= viewModel.meta.keywords %]" />
+	<meta name="twitter:card" content="summary_large_image" />
+	<meta name="twitter:title" content="[%= viewModel.meta.title %]" />
+	<meta name="twitter:description" content="[%= viewModel.meta.description %]" />
+	<meta name="twitter:image:src" content="[%= viewModel.meta.image %]" />
+	<meta itemprop="name" content="[%= viewModel.meta.title %]" />
+	<meta itemprop="description" content="[%= viewModel.meta.description %]" />
+	<meta itemprop="image" content="[%= viewModel.meta.image %]" />
+	<meta property="og:title" content="[%= viewModel.meta.title %]" />
+	<meta property="og:description" content="[%= viewModel.meta.description %]" />
+	<meta property="og:image" content="[%= viewModel.meta.image %]" />
 	<meta property="og:url" content="[%= urlToHere() %]" />
 
 	<meta name="prismic-routing-pattern" content="/issue$issueNum/$slug">
