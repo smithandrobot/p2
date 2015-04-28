@@ -156,6 +156,14 @@ var helpers = {
     return data;
   },
 
+  firstArticleImageUrl: function(article) {
+    var content = article.getContent().asHtml(),
+      url = /<img.*?src="(.*?)"/.exec(content);
+
+    if (url && url[1]) { return url[1]; }
+    return false;
+  },
+
   // view modules
   articleViewModel: function(rawIssues, rawArticles) {
     var issue = this.potato.wrapDocument(rawIssues.results[0]),
@@ -165,6 +173,8 @@ var helpers = {
     var authors  = article.getAuthors ? article.getAuthors() : [];
     var nextArticle = this.nextArticleInIssue(issue, article);
     var prevArticle = this.prevArticleInIssue(issue, article);
+
+    var firstImage = this.firstArticleImageUrl(article);
 
     return {
       issue: issue,
@@ -178,6 +188,7 @@ var helpers = {
         description: (article.getMetaDescription && article.getMetaDescription()) ? article.getMetaDescription() : article.getContent().asText().substring(0, 150).trim(),
         keywords: (article.getMetaKeywords && article.getMetaKeywords()) ? article.getMetaKeywords() : 'agile development, experience design, software design, software delivery, continuous delivery',
         image: (article.getMetaImage && article.getMetaImage()) ? article.getMetaImage().main.url : // article meta image
+                firstImage? firstImage : // first image from article
                   (issue.getMetaImage && issue.getMetaImage()) ? issue.getMetaImage().main.url : // issue meta image
                     (issue.getImage && issue.getImage()) ? issue.getImage().main.url : '' // issue image
       }
